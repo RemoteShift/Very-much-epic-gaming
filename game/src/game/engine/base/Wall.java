@@ -1,12 +1,12 @@
-package temporary;
+package game.engine.base;
 
 public class Wall {
 	private int baseHealth;
 	private int currentHealth;
-	
-	public Wall(int baseHealth){
-		this.baseHealth=baseHealth;
-		this.currentHealth=baseHealth;
+
+	public Wall(int baseHealth) {
+		this.baseHealth = baseHealth;
+		this.currentHealth = baseHealth;
 	}
 
 	public int getCurrentHealth() {
@@ -20,6 +20,5 @@ public class Wall {
 	public int getBaseHealth() {
 		return baseHealth;
 	}
-	
-	
+
 }

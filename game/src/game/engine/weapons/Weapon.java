@@ -1,11 +1,12 @@
-package temporary;
+package game.engine.weapons;
 
-abstract class Weapon {
-	private int baseDamage;
-	
-	public Weapon(int baseDamage){
+public abstract class Weapon {
+	private final int baseDamage;
+
+	public Weapon(int baseDamage) {
 		this.baseDamage = baseDamage;
 	}
+
 	public int getBaseDamage() {
 		return baseDamage;
 	}
