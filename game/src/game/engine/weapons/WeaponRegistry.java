@@ -12,19 +12,19 @@ public class WeaponRegistry {
 		return this.code;
 	}
 
-	public int getprice() {
+	public int getPrice() {
 		return this.price;
 	}
 
-	public int getdamage() {
+	public int getDamage() {
 		return this.damage;
 	}
 
-	public int getminRange() {
+	public int getMinRange() {
 		return this.minRange;
 	}
 
-	public int getmaxRange() {
+	public int getMaxRange() {
 		return this.maxRange;
 	}
 

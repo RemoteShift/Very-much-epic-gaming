@@ -15,8 +15,6 @@ public class Lane implements Comparable {
 	public Lane(Wall laneWall) {
 		this.laneWall = laneWall;
 		this.dangerLevel = 0;
-		titans.clear();
-		weapons.clear();
 	}
 
 	public Wall getLaneWall() {

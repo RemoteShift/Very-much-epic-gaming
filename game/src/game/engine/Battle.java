@@ -26,8 +26,8 @@ public class Battle {
     private final WeaponFactory weaponFactory;
     private final HashMap<Integer, TitanRegistry> titansArchives;
     private final ArrayList<Titan> approachingTitans;
-    private PriorityQueue<Lane> lanes; // final
-    private ArrayList<Lane> originalLanes; // final
+    private final PriorityQueue<Lane> lanes;
+    private final ArrayList<Lane> originalLanes;
 
     public int[][] getPHASES_APPROACHING_TITANS() {
         return PHASES_APPROACHING_TITANS;
@@ -93,6 +93,14 @@ public class Battle {
         return this.approachingTitans;
     }
 
+    public PriorityQueue<Lane> getLanes() {
+        return this.lanes;
+    }
+
+    public ArrayList<Lane> getOriginalLanes() {
+        return this.originalLanes;
+    }
+
     public Battle(int numberOfTurns, int score, int titanSpawnDistance, int initialNumOfLanes,
             int initialResourcesPerLane) throws IOException {
         this.numberOfTurns = numberOfTurns;
@@ -102,6 +110,9 @@ public class Battle {
         this.titansArchives = DataLoader.readTitanRegistry();
         this.weaponFactory = new WeaponFactory();
         this.approachingTitans = new ArrayList<>();
+        lanes = new PriorityQueue<Lane>();
+        originalLanes = new ArrayList<Lane>();
+        initializeLanes(initialNumOfLanes);
     }
 
     private void initializeLanes(int numOfLanes) {
