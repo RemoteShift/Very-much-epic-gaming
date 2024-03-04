@@ -10,12 +10,9 @@ public abstract class Titan implements Comparable {
 	private final int resourcesValue;
 	private final int dangerLevel;
 
-	// there are 8 instance variables, but the constructor only takes 7 inputs, this
-	// is because the current health is intially
-	// set to the base health in the constructor.
 	public Titan(int baseHealth, int baseDamage, int heightInMeters, int distanceFromBase, int speed,
 			int resourcesValue, int dangerLevel) {
-		this.baseHealth = baseHealth;
+		this.baseHealth = Math.max(0, baseHealth);
 		this.currentHealth = baseHealth;
 		this.baseDamage = baseDamage;
 		this.heightInMeters = heightInMeters;
@@ -26,7 +23,7 @@ public abstract class Titan implements Comparable {
 	}
 
 	public void setCurrentHealth(int currentHealth) {
-		this.currentHealth = currentHealth;
+		this.currentHealth = Math.max(0, currentHealth);
 	}
 
 	public void setDistanceFromBase(int distanceFromBase) {
@@ -69,9 +66,15 @@ public abstract class Titan implements Comparable {
 		return dangerLevel;
 	}
 
-	// i didnt really understand what was asked of me here
-	// public int compareTo(Titan o){
-	//
-	// }
+	@Override
+	public int compareTo(Object o) {
+		Titan o1 = (Titan) o;
 
+		if (this.distanceFromBase > o1.distanceFromBase)
+			return 1;
+		else if (this.distanceFromBase == o1.distanceFromBase)
+			return 0;
+		else
+			return -1;
+	}
 }
