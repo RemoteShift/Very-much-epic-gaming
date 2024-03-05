@@ -7,4 +7,22 @@ public class AbnormalTitan extends Titan {
 			int speed, int resourcesValue, int dangerLevel) {
 		super(dangerLevel, resourcesValue, speed, distanceFromBase, heightInMeters, baseDamage, baseHealth);
 	}
+
+	@Override
+	public int getDistance() {
+		// TODO Auto-generated method stub
+		return getDistance();
+	}
+
+	@Override
+	public void setDistance(int distance) {
+		// TODO Auto-generated method stub
+		setDistance(distance);
+	}
+
+	@Override
+	public int getDamage() {
+		// TODO Auto-generated method stub
+		return getBaseDamage();
+	}
 }

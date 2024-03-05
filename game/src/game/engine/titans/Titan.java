@@ -1,6 +1,10 @@
 package game.engine.titans;
 
-public abstract class Titan implements Comparable<Object> {
+import game.engine.interfaces.Attackee;
+import game.engine.interfaces.Attacker;
+import game.engine.interfaces.Mobil;
+
+public abstract class Titan implements Comparable<Titan>, Mobil, Attacker, Attackee {
 	private final int baseHealth;
 	private int currentHealth;
 	private final int baseDamage;
@@ -13,7 +17,7 @@ public abstract class Titan implements Comparable<Object> {
 	public Titan(int baseHealth, int baseDamage, int heightInMeters, int distanceFromBase, int speed,
 			int resourcesValue, int dangerLevel) {
 		this.baseHealth = Math.max(0, baseHealth);
-		this.currentHealth = baseHealth;
+		this.currentHealth = this.baseHealth;
 		this.baseDamage = baseDamage;
 		this.heightInMeters = heightInMeters;
 		this.distanceFromBase = distanceFromBase;
@@ -26,7 +30,7 @@ public abstract class Titan implements Comparable<Object> {
 		this.currentHealth = Math.max(0, currentHealth);
 	}
 
-	public void setDistanceFromBase(int distanceFromBase) {
+	public void setDistance(int distanceFromBase) {
 		this.distanceFromBase = distanceFromBase;
 	}
 
@@ -50,7 +54,7 @@ public abstract class Titan implements Comparable<Object> {
 		return heightInMeters;
 	}
 
-	public int getDistanceFromBase() {
+	public int getDistance() {
 		return distanceFromBase;
 	}
 
@@ -67,12 +71,10 @@ public abstract class Titan implements Comparable<Object> {
 	}
 
 	@Override
-	public int compareTo(Object o) {
-		Titan o1 = (Titan) o;
-
-		if (this.distanceFromBase > o1.distanceFromBase)
+	public int compareTo(Titan o) {
+		if (this.distanceFromBase > o.distanceFromBase)
 			return 1;
-		else if (this.distanceFromBase == o1.distanceFromBase)
+		else if (this.distanceFromBase == o.distanceFromBase)
 			return 0;
 		else
 			return -1;

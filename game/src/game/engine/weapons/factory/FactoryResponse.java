@@ -11,6 +11,10 @@ public class FactoryResponse {
         return this.remainingResources;
     }
 
+    public Weapon getWeapon() {
+        return this.weapon;
+    }
+
     public FactoryResponse(Weapon weapon, int remainingResources) {
         this.weapon = weapon;
         this.remainingResources = remainingResources;

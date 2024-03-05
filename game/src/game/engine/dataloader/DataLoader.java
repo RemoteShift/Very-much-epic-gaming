@@ -8,8 +8,8 @@ import game.engine.titans.TitanRegistry;
 import game.engine.weapons.WeaponRegistry;
 
 public class DataLoader {
-	private static final String TITANS_FILE_NAME = "C:\\Users\\allou\\OneDrive\\Desktop\\Very-much-epic-gaming\\game\\CSV files\\titans.csv";
-	private static final String WEAPONS_FILE_NAME = "C:\\Users\\allou\\OneDrive\\Desktop\\Very-much-epic-gaming\\game\\CSV files\\weapons.csv";
+	private static final String TITANS_FILE_NAME = "titans.csv";
+	private static final String WEAPONS_FILE_NAME = "weapons.csv";
 	private static String line;
 
 	public static HashMap<Integer, TitanRegistry> readTitanRegistry() throws IOException {

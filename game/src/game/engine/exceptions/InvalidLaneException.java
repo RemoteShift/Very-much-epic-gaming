@@ -2,7 +2,7 @@ package game.engine.exceptions;
 
 public class InvalidLaneException extends GameActionException {
 
-    static final String MSG = "Action done on an invalid lane";
+    private static final String MSG = "Action done on an invalid lane";
 
     public InvalidLaneException() {
         super(MSG);
