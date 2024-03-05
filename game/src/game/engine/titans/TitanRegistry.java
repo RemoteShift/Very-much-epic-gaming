@@ -1,13 +1,13 @@
 package game.engine.titans;
 
 public class TitanRegistry {
-	final int code;
-	final int baseHealth;
-	final int baseDamage;
-	final int heightInMeters;
-	final int speed;
-	final int resourcesValue;
-	final int dangerLevel;
+	private final int code;
+	private final int baseHealth;
+	private final int baseDamage;
+	private final int heightInMeters;
+	private final int speed;
+	private final int resourcesValue;
+	private final int dangerLevel;
 
 	public int getCode() {
 		return this.code;

@@ -6,7 +6,7 @@ import game.engine.base.Wall;
 import game.engine.titans.Titan;
 import game.engine.weapons.Weapon;
 
-public class Lane implements Comparable {
+public class Lane implements Comparable<Object> {
 	private Wall laneWall;
 	private int dangerLevel;
 	private PriorityQueue<Titan> titans;

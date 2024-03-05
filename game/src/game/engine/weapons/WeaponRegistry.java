@@ -1,12 +1,12 @@
 package game.engine.weapons;
 
 public class WeaponRegistry {
-	final int code;
-	final int price;
-	final int damage;
-	final int minRange;
-	final int maxRange;
-	final String name;
+	private final int code;
+	private final int price;
+	private final int damage;
+	private final int minRange;
+	private final int maxRange;
+	private final String name;
 
 	public int getCode() {
 		return this.code;
