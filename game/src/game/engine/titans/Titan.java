@@ -26,8 +26,12 @@ public abstract class Titan implements Comparable<Titan>, Mobil, Attacker, Attac
 		this.dangerLevel = dangerLevel;
 	}
 
-	public void setCurrentHealth(int currentHealth) {
-		this.currentHealth = Math.max(0, currentHealth);
+	public int getCurrentHealth() {
+		return currentHealth;
+	}
+
+	public void setCurrentHealth(int health) {
+		this.currentHealth = Math.max(0, health);
 	}
 
 	public void setDistance(int distanceFromBase) {
@@ -40,10 +44,6 @@ public abstract class Titan implements Comparable<Titan>, Mobil, Attacker, Attac
 
 	public int getBaseHealth() {
 		return baseHealth;
-	}
-
-	public int getCurrentHealth() {
-		return currentHealth;
 	}
 
 	public int getBaseDamage() {
