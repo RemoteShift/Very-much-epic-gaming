@@ -1,0 +1,7 @@
+INDEX VERSION 1.134+C:\Users\allou\OneDrive\Desktop\Very-much-epic-gaming\.metadata\.plugins\org.eclipse.jdt.core
+1865797976.index
+59219483.index
+3559992837.index
+1696264553.index
+1217488716.index
+967719751.index

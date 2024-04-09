@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="game.engine.base.Wall"/>
+    <fullyQualifiedTypeName name="game.engine.interfaces.Mobil"/>
+    <fullyQualifiedTypeName name="game.engine.interfaces.Attackee"/>
+    <fullyQualifiedTypeName name="game.engine.interfaces.Attacker"/>
+</qualifiedTypeNameHistroy>

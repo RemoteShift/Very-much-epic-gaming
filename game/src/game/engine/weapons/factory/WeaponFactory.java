@@ -6,15 +6,19 @@ import java.util.HashMap;
 import game.engine.dataloader.DataLoader;
 import game.engine.weapons.WeaponRegistry;
 
-public class WeaponFactory {
+public class WeaponFactory
+{
+	private final HashMap<Integer, WeaponRegistry> weaponShop;
 
-    private final HashMap<Integer, WeaponRegistry> weaponShop;
+	public WeaponFactory() throws IOException
+	{
+		super();
+		weaponShop = DataLoader.readWeaponRegistry();
+	}
 
-    public HashMap<Integer, WeaponRegistry> getWeaponShop() {
-        return this.weaponShop;
-    }
+	public HashMap<Integer, WeaponRegistry> getWeaponShop()
+	{
+		return weaponShop;
+	}
 
-    public WeaponFactory() throws IOException {
-        weaponShop = DataLoader.readWeaponRegistry();
-    }
 }

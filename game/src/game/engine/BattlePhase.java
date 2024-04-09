@@ -1,5 +1,6 @@
 package game.engine;
 
-public enum BattlePhase {
+public enum BattlePhase
+{
 	EARLY, INTENSE, GRUMBLING
 }

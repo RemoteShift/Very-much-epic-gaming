@@ -4,58 +4,78 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+
+import game.engine.exceptions.InvalidCSVFormat;
 import game.engine.titans.TitanRegistry;
 import game.engine.weapons.WeaponRegistry;
 
-public class DataLoader {
+public class DataLoader
+{
 	private static final String TITANS_FILE_NAME = "titans.csv";
 	private static final String WEAPONS_FILE_NAME = "weapons.csv";
-	private static String line;
 
-	public static HashMap<Integer, TitanRegistry> readTitanRegistry() throws IOException {
-		final BufferedReader brT = new BufferedReader(new FileReader(TITANS_FILE_NAME));
-		HashMap<Integer, TitanRegistry> result = new HashMap<Integer, TitanRegistry>();
+	public static HashMap<Integer, TitanRegistry> readTitanRegistry() throws IOException
+	{
+		HashMap<Integer, TitanRegistry> titanRegistryMap = new HashMap<>();
 
-		while ((line = brT.readLine()) != null) {
-			String[] column = line.split(",");
-			result.put(Integer.parseInt(column[0]),
-					new TitanRegistry(Integer.parseInt(column[0]), Integer.parseInt(column[1]),
-							Integer.parseInt(column[2]), Integer.parseInt(column[3]), Integer.parseInt(column[4]),
-							Integer.parseInt(column[5]), Integer.parseInt(column[6])));
+		BufferedReader br = new BufferedReader(new FileReader(TITANS_FILE_NAME));
+
+		while (br.ready())
+		{
+			String nextLine = br.readLine();
+			String[] data = nextLine.split(",");
+
+			if (data.length != 7)
+			{
+				throw new InvalidCSVFormat(nextLine);
+			}
+
+			TitanRegistry reg = new TitanRegistry(Integer.parseInt(data[0]), Integer.parseInt(data[1]),
+					Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4]),
+					Integer.parseInt(data[5]), Integer.parseInt(data[6]));
+
+			titanRegistryMap.put(reg.getCode(), reg);
 		}
 
-		return result;
+		br.close();
 
+		return titanRegistryMap;
 	}
 
-	public static HashMap<Integer, WeaponRegistry> readWeaponRegistry() throws IOException {
-		final BufferedReader brW = new BufferedReader(new FileReader(WEAPONS_FILE_NAME));
-		HashMap<Integer, WeaponRegistry> result = new HashMap<Integer, WeaponRegistry>();
+	public static HashMap<Integer, WeaponRegistry> readWeaponRegistry() throws IOException
+	{
+		HashMap<Integer, WeaponRegistry> weaponRegistryMap = new HashMap<>();
 
-		while ((line = brW.readLine()) != null) {
-			String[] column = line.split(",");
-			WeaponRegistry weapon;
+		BufferedReader br = new BufferedReader(new FileReader(WEAPONS_FILE_NAME));
 
-			if (column.length > 4)
-				weapon = new WeaponRegistry(Integer.parseInt(column[0]), Integer.parseInt(column[1]),
-						Integer.parseInt(column[2]), column[3], Integer.parseInt(column[4]),
-						Integer.parseInt(column[5]));
-			else
-				weapon = new WeaponRegistry(Integer.parseInt(column[0]), Integer.parseInt(column[1]),
-						Integer.parseInt(column[2]), column[3]);
+		while (br.ready())
+		{
+			String nextLine = br.readLine();
+			String[] data = nextLine.split(",");
 
-			result.put(Integer.parseInt(column[0]), weapon);
+			WeaponRegistry reg;
+
+			if (data.length != 6 && data.length != 4)
+			{
+				throw new InvalidCSVFormat(nextLine);
+			}
+
+			if (data.length == 6)
+			{
+				reg = new WeaponRegistry(Integer.parseInt(data[0]), Integer.parseInt(data[1]),
+						Integer.parseInt(data[2]), data[3], Integer.parseInt(data[4]), Integer.parseInt(data[5]));
+			} else
+			{
+				reg = new WeaponRegistry(Integer.parseInt(data[0]), Integer.parseInt(data[1]),
+						Integer.parseInt(data[2]), data[3]);
+			}
+
+			weaponRegistryMap.put(reg.getCode(), reg);
 		}
 
-		return result;
-	}
+		br.close();
 
-	public String getWEAPONS_FILE_NAME() {
-		return WEAPONS_FILE_NAME;
-	}
-
-	public String getTITANS_FINAL_NAME() {
-		return TITANS_FILE_NAME;
+		return weaponRegistryMap;
 	}
 
 }
