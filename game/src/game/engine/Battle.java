@@ -21,6 +21,7 @@ import game.engine.weapons.PiercingCannon;
 import game.engine.weapons.SniperCannon;
 import game.engine.weapons.VolleySpreadCannon;
 import game.engine.weapons.WallTrap;
+import game.engine.weapons.Weapon;
 import game.engine.weapons.factory.WeaponFactory;
 
 public class Battle
@@ -186,8 +187,10 @@ private void refillApproachingTitans(){
 		//this method is slightly hardcoded, tell me if u think i should change anything.
 }
 void purchaseWeapon(int weaponCode, Lane lane) throws InsufficientResourcesException, InvalidLaneException{
-	if(isLaneLost() == true) //isLaneLost() was not implemented yet at the time of me writing this code
+	if(isLaneLost() == true){ //isLaneLost() was not implemented yet at the time of me writing this code
 	throw new InvalidLaneException ("Cannot Place here; lane is lost");
+	break;
+}
 
 	switch(weaponCode){
 		case 1: Lane.addWeapon(new PiercingCannon(10));//idk what to put for parameter
@@ -204,6 +207,7 @@ void purchaseWeapon(int weaponCode, Lane lane) throws InsufficientResourcesExcep
 }
 void passTurn(){
 	return;
+	// :3
 }
 private void addTurnTitansToLane(){
 		for (int i=0;i<numberOfTitansPerTurn;i++){
@@ -233,8 +237,27 @@ private void moveTitans(){
 			if (Current_Titan instanceof ColossalTitan)
 			Current_Titan.setSpeed(Current_Titan.getSpeed()+1);
 			// now that i have the PriorityQueue of all the titans on the lane, i get each titan individually and set their distance according to their speed.
-		}
 	}
 }
-
 }
+private int performWeaponsAttacks(){
+	PriorityQueue<Lane> TempLanes = new PriorityQueue<>();
+	ArrayList<Weapon> Weapons_On_Lane = new ArrayList<>();
+	PriorityQueue<Titan> Titans_On_Lane = new PriorityQueue<>();
+	PriorityQueue<Lane> Lanes = getLanes(); 
+	Weapon Current_Weapon;
+	Titan Current_Titan;
+	for(int i=0;i<Lanes.size();i++){
+		Weapons_On_Lane=((Lanes.peek())).getWeapons(); //looping through the PriorityQueue of Lanes, getting the ArrayList of weapons on each of the lanes.
+		Titans_On_Lane=(Lanes.peek()).getTitans(); //looping through the PriorityQueue of Lanes, getting the priorityQueue of titans on each of the lanes.
+		Lanes.poll();
+		for(int j=0;j<Weapons_On_Lane.size();j++){
+			Current_Weapon=(Weapons_On_Lane.get(j));
+			for(int k=0;k<Titans_On_Lane.size();k++){
+			Current_Titan=(Titans_On_Lane.poll());
+			Current_Titan.setCurrentHealth(Current_Titan.getCurrentHealth()-Current_Weapon.getDamage());
+		}
+//for each lane(first loop), we take the jth weapon in the arrayList (2nd loop), and subtract all the titans' health by the damage of that weapon(3rd loop). we keep doing this for all the TIANS, from all the WEAPONS, in all the LANES.
+	}
+//i am not proud of this code
+}}}
