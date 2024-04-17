@@ -54,4 +54,8 @@ public class Lane implements Comparable<Lane>
 		return this.dangerLevel - o.dangerLevel;
 	}
 
-}
+
+	public static void addWeapon(Weapon weapon) {  
+		addWeapon(weapon);
+//this is a helper method implemented for the battle class for the "PurchaseWeapon" method.
+}}
