@@ -4,8 +4,7 @@ import game.engine.interfaces.Attackee;
 import game.engine.interfaces.Attacker;
 import game.engine.interfaces.Mobil;
 
-public abstract class Titan implements Attacker, Attackee, Mobil, Comparable<Titan>
-{
+public abstract class Titan implements Attacker, Attackee, Mobil, Comparable<Titan> {
 	private final int baseHealth;
 	private int currentHealth;
 	private final int baseDamage;
@@ -16,8 +15,7 @@ public abstract class Titan implements Attacker, Attackee, Mobil, Comparable<Tit
 	private final int dangerLevel;
 
 	public Titan(int baseHealth, int baseDamage, int heightInMeters, int distanceFromBase, int speed,
-			int resourcesValue, int dangerLevel)
-	{
+			int resourcesValue, int dangerLevel) {
 		super();
 		this.baseHealth = baseHealth;
 		this.currentHealth = baseHealth;
@@ -29,66 +27,55 @@ public abstract class Titan implements Attacker, Attackee, Mobil, Comparable<Tit
 		this.dangerLevel = dangerLevel;
 	}
 
-	public int getBaseHealth()
-	{
+	public int getBaseHealth() {
 		return this.baseHealth;
 	}
 
 	@Override
-	public int getCurrentHealth()
-	{
+	public int getCurrentHealth() {
 		return this.currentHealth;
 	}
 
 	@Override
-	public void setCurrentHealth(int health)
-	{
+	public void setCurrentHealth(int health) {
 		this.currentHealth = health < 0 ? 0 : health;
 	}
 
 	@Override
-	public int getDamage()
-	{
+	public int getDamage() {
 		return this.baseDamage;
 	}
 
-	public int getHeightInMeters()
-	{
+	public int getHeightInMeters() {
 		return this.heightInMeters;
 	}
 
 	@Override
-	public int getDistance()
-	{
+	public int getDistance() {
 		return this.distanceFromBase;
 	}
 
 	@Override
-	public void setDistance(int distance)
-	{
+	public void setDistance(int distance) {
 		this.distanceFromBase = distance < 0 ? 0 : distance;
 	}
 
 	@Override
-	public int getSpeed()
-	{
+	public int getSpeed() {
 		return this.speed;
 	}
 
 	@Override
-	public void setSpeed(int speed)
-	{
+	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
 
 	@Override
-	public int getResourcesValue()
-	{
+	public int getResourcesValue() {
 		return this.resourcesValue;
 	}
 
-	public int getDangerLevel()
-	{
+	public int getDangerLevel() {
 		return this.dangerLevel;
 	}
 
@@ -98,4 +85,8 @@ public abstract class Titan implements Attacker, Attackee, Mobil, Comparable<Tit
 		return this.distanceFromBase - o.distanceFromBase;
 	}
 
+	@Override
+	public int attack(Attackee Wall) {
+		return Wall.takeDamage(getDamage());
+	}
 }

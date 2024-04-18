@@ -1,5 +1,10 @@
 package game.engine.titans;
 
+import java.io.IOException;
+import java.util.HashMap;
+
+import game.engine.dataloader.DataLoader;
+
 public class TitanRegistry // For storing the titan's information from the csv file read in the data loader
 {
 	private final int code;
@@ -11,8 +16,7 @@ public class TitanRegistry // For storing the titan's information from the csv f
 	private int dangerLevel;
 
 	public TitanRegistry(int code, int baseHealth, int baseDamage, int heightInMeters, int speed, int resourcesValue,
-			int dangerLevel)
-	{
+			int dangerLevel) {
 		super();
 		this.code = code;
 		this.baseHealth = baseHealth;
@@ -23,39 +27,54 @@ public class TitanRegistry // For storing the titan's information from the csv f
 		this.dangerLevel = dangerLevel;
 	}
 
-	public int getCode()
-	{
+	public int getCode() {
 		return code;
 	}
 
-	public int getBaseHealth()
-	{
+	public int getBaseHealth() {
 		return baseHealth;
 	}
 
-	public int getBaseDamage()
-	{
+	public int getBaseDamage() {
 		return baseDamage;
 	}
 
-	public int getHeightInMeters()
-	{
+	public int getHeightInMeters() {
 		return heightInMeters;
 	}
 
-	public int getSpeed()
-	{
+	public int getSpeed() {
 		return speed;
 	}
 
-	public int getResourcesValue()
-	{
+	public int getResourcesValue() {
 		return resourcesValue;
 	}
 
-	public int getDangerLevel()
-	{
+	public int getDangerLevel() {
 		return dangerLevel;
+	}
+
+	public Titan spawnTitan(int distanceFromBase) throws IOException {
+		switch (code) {
+			case 1:
+				return new PureTitan(baseHealth, baseDamage, heightInMeters,
+						distanceFromBase, speed, resourcesValue, dangerLevel);
+			case 2:
+				return new AbnormalTitan(baseHealth, baseDamage,
+						heightInMeters,
+						distanceFromBase, speed, resourcesValue, dangerLevel);
+			case 3:
+				return new ArmoredTitan(baseHealth, baseDamage,
+						heightInMeters,
+						distanceFromBase, speed, resourcesValue, dangerLevel);
+			case 4:
+				return new ColossalTitan(baseHealth, baseDamage,
+						heightInMeters,
+						distanceFromBase, speed, resourcesValue, dangerLevel);
+			default:
+				return null;
+		}
 	}
 
 }

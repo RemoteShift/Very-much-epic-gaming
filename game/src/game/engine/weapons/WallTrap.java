@@ -1,12 +1,44 @@
 package game.engine.weapons;
 
-public class WallTrap extends Weapon
-{
-	public static final int WEAPON_CODE = 4;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
-	public WallTrap(int baseDamage)
-	{
+import game.engine.titans.Titan;
+
+public class WallTrap extends Weapon {
+	public static final int WEAPON_CODE = 4;
+	private Queue<Titan> reachedTitans = new LinkedList<Titan>();
+
+	public WallTrap(int baseDamage) {
 		super(baseDamage);
+	}
+
+	@Override
+	public int turnAttack(PriorityQueue<Titan> laneTitans) {
+		int resources = 0;
+		Titan[] tempTitans = new Titan[laneTitans.size()];
+
+		if (laneTitans.size() > 0) {
+			for (int i = 0; i < laneTitans.size(); i++) {
+				if ((tempTitans[i] = laneTitans.poll()).hasReachedTarget()) {
+					if (!reachedTitans.contains(tempTitans[i])) {
+						reachedTitans.add(tempTitans[i]);
+					}
+				}
+			}
+
+			resources += super.attack(reachedTitans.peek());
+			if (reachedTitans.peek().getCurrentHealth() < 0)
+				reachedTitans.poll();
+
+			for (int i = 0; i < tempTitans.length; i++) {
+				if (tempTitans[i].getCurrentHealth() > 0)
+					laneTitans.add(tempTitans[i]);
+			}
+		}
+
+		return resources;
 	}
 
 }
