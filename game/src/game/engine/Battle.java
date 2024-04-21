@@ -248,9 +248,10 @@ public class Battle {
 			// Titans_On_Lane so that i can iterate through the PriorityQueue.
 			for (int j = 0; j < Titans_On_Lane.size(); j++) {
 				Current_Titan = (Titans_On_Lane.poll());
-				Current_Titan.setDistance(Current_Titan.getDistance() - Current_Titan.getSpeed());
+				Current_Titan.move();
 				if (Current_Titan instanceof ColossalTitan)
 					Current_Titan.setSpeed(Current_Titan.getSpeed() + 1);
+				// this is jo, i changed the moving of the normal titans bass we should remove the above 2 lines for collosal and instead override the move() method inside CollosalTitan class
 				// now that i have the PriorityQueue of all the titans on the lane, i get each
 				// titan individually and set their distance according to their speed.
 			}
