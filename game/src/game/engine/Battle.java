@@ -251,7 +251,6 @@ public class Battle {
 				Current_Titan.move();
 				if (Current_Titan instanceof ColossalTitan)
 					Current_Titan.setSpeed(Current_Titan.getSpeed() + 1);
-				// this is jo, i changed the moving of the normal titans bass we should remove the above 2 lines for collosal and instead override the move() method inside CollosalTitan class
 				// now that i have the PriorityQueue of all the titans on the lane, i get each
 				// titan individually and set their distance according to their speed.
 			}
@@ -265,6 +264,9 @@ public class Battle {
 		PriorityQueue<Lane> Lanes = getLanes();
 		Weapon Current_Weapon;
 		Titan Current_Titan;
+
+
+		
 		for (int i = 0; i < Lanes.size(); i++) {
 			Weapons_On_Lane = ((Lanes.peek())).getWeapons(); // looping through the PriorityQueue of Lanes, getting the
 																// ArrayList of weapons on each of the lanes.
@@ -285,4 +287,26 @@ public class Battle {
 			// i am not proud of this code
 		}
 	}
+	private int performTitansAttacks(){
+		PriorityQueue<Titan> Titans_On_Lane = new PriorityQueue<>();
+		PriorityQueue<Lane> Lanes = getLanes();
+		Lane Current_Lane;
+		Titan Current_Titan;
+		int total_resource_value_returned=0;
+		while(Lanes.size()!=0) {
+			Titans_On_Lane = (Lanes.peek()).getTitans();
+			Current_Lane=Lanes.peek();
+			Lanes.poll();
+			for (int k = 0; k < Titans_On_Lane.size(); k++) {
+				Current_Titan = (Titans_On_Lane.poll());
+				if (Current_Titan.getDistance()==0){
+					Current_Titan.attack(Current_Lane.getLaneWall());
+					if(Current_Lane.getLaneWall().getCurrentHealth()<=0){
+						total_resource_value_returned+=Current_Lane.getLaneWall().getResourcesValue();
+						Current_Lane.
+				}
+				}
+	}
 }
+}
+	}
