@@ -46,7 +46,7 @@ public class Lane implements Comparable<Lane> {
 		return this.dangerLevel - o.dangerLevel;
 	}
 
-	// Milestone 2:
+	// Milestone 2:.
 
 	public void addTitan(Titan titan) {
 		titans.add(titan);
