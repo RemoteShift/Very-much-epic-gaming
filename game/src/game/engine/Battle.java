@@ -141,152 +141,96 @@ public class Battle {
 
 	// Milestone 2 game setup methods:
 
-	private void refillApproachingTitans() {
-		int[][] temp = PHASES_APPROACHING_TITANS;
-		int j;
-		switch (getBattlePhase()) {
+	private void refillApproachingTitans() throws IOException {
+		approachingTitans.clear();
+		TitanRegistry tempTitanRegistry;
+		switch (battlePhase) {
 			case EARLY:
-				j = 0;
+				for (int tempTitan : PHASES_APPROACHING_TITANS[0]) {
+					tempTitanRegistry = titansArchives.get(tempTitan);
+					approachingTitans.add(tempTitanRegistry.spawnTitan(titanSpawnDistance));
+				}
+				break;
 			case INTENSE:
-				j = 1;
+				for (int tempTitan : PHASES_APPROACHING_TITANS[1]) {
+					tempTitanRegistry = titansArchives.get(tempTitan);
+					approachingTitans.add(tempTitanRegistry.spawnTitan(titanSpawnDistance));
+				}
+				break;
 			case GRUMBLING:
-				j = 2;
+				for (int tempTitan : PHASES_APPROACHING_TITANS[2]) {
+					tempTitanRegistry = titansArchives.get(tempTitan);
+					approachingTitans.add(tempTitanRegistry.spawnTitan(titanSpawnDistance));
+				}
+				break;
 			default:
-				j = 0;
-				// based on what battlephase it is, i am setting the j variable, which
-				// represents which row we will be taking from the PHASES_APPROACHING_TITANS 2D
-				// array. so if its EARLY,j=0 and we will use the first row to fill the
-				// ApproachingTitans ArrayList.
+				return;
 		}
-		for (int i = 0; i < temp.length; i++) {
-			switch (temp[i][j]) {
-				case 1:
-					getApproachingTitans().add(new PureTitan(i, i, i, i, i, i, i)); // idk what to put for the
-																					// parameters
-				case 2:
-					getApproachingTitans().add(new AbnormalTitan(i, i, i, i, i, i, i)); // idk what to put for the
-																						// parameters
-				case 3:
-					getApproachingTitans().add(new ArmoredTitan(i, i, i, i, i, i, i)); // idk what to put for the
-																						// parameters
-				case 4:
-					getApproachingTitans().add(new ColossalTitan(i, i, i, i, i, i, i)); // idk what to put for the
-																						// parameters
-					// the PHASES_APPROACHING_TITANS is a 2D array of the titans' ID numbers, so
-					// what i did here was map every titan ID to its designated titan using a switch
-					// case and stored it in the ArrayList ApproachingTitans. i keep doing this
-					// using a for loop.
-			}
-		}
-		// this method is slightly hardcoded, tell me if u think i should change
-		// anything.
 	}
 
-	void purchaseWeapon(int weaponCode, Lane lane) throws InsufficientResourcesException, InvalidLaneException {
-		if (isLaneLost() == true) { // isLaneLost() was not implemented yet at the time of me writing this code
+	void purchaseWeapon(int weaponCode, Lane lane)
+			throws InsufficientResourcesException, InvalidLaneException, IOException {
+		if (lane.isLaneLost() == true) {
 			throw new InvalidLaneException("Cannot Place here; lane is lost");
-			break;
 		}
 
 		switch (weaponCode) {
 			case 1:
-				Lane.addWeapon(new PiercingCannon(10));// idk what to put for parameter
-				buyWeapon(resourcesGathered, 1);
-				throw new InsufficientResourcesException(weaponCode);
+				weaponFactory.buyWeapon(resourcesGathered, 1);
+				lane.addWeapon(weaponFactory.getWeaponShop().get(1).buildWeapon());
 			case 2:
-				Lane.addWeapon(new SniperCannon(10));// idk what to put for parameter
-				buyWeapon(resourcesGathered, 2);
-				throw new InsufficientResourcesException(weaponCode);
+				weaponFactory.buyWeapon(resourcesGathered, 2);
+				lane.addWeapon(weaponFactory.getWeaponShop().get(2).buildWeapon());
 			case 3:
-				Lane.addWeapon(new VolleySpreadCannon(10, weaponCode, weaponCode));// idk what to put for parameters
-				buyWeapon(resourcesGathered, 3);
-				throw new InsufficientResourcesException(weaponCode);
+				weaponFactory.buyWeapon(resourcesGathered, 3);
+				lane.addWeapon(weaponFactory.getWeaponShop().get(3).buildWeapon());
 			case 4:
-				Lane.addWeapon(new WallTrap(10));// idk what to put for parameter
-				buyWeapon(resourcesGathered, 4);
-				throw new InsufficientResourcesException(weaponCode);
-			// buyWeapon was not implemented yet at the time of me writing this code
+				weaponFactory.buyWeapon(resourcesGathered, 4);
+				lane.addWeapon(weaponFactory.getWeaponShop().get(4).buildWeapon());
 		}
-		// this code might have a few issues i will come back to later
 	}
 
 	void passTurn() {
-		return;
-		// :3
+		return; // idk i'll return later
 	}
 
-	private void addTurnTitansToLane() {
+	private void addTurnTitansToLane() throws IOException {
 		for (int i = 0; i < numberOfTitansPerTurn; i++) {
-			if (this.approachingTitans == null)
+			if (this.approachingTitans.isEmpty())
 				refillApproachingTitans();
-			Titan Titan_To_Be_Added = approachingTitans.remove(i);
-			((getLanes().peek()).getTitans()).add(Titan_To_Be_Added);
-			// updateLanesDangerLevels(); this hasnt been implemented yet at the time of me
-			// coding.
-			// getlanes() gets a priority queue of the current active lanes, so when we
-			// peek, it returns the lane with the least danger level. then the getTitans
-			// gets us the arraylist of the titans on that lane, which we then add to it the
-			// first element in the approachingTitans arraylist.
+			Titan Titan_To_Be_Added = approachingTitans.remove(0);
+			Lane tempLane = getLanes().peek();
+			tempLane.addTitan(Titan_To_Be_Added);
+			tempLane.updateLaneDangerLevel();
 		}
 
 	}
 
 	private void moveTitans() {
-		PriorityQueue<Lane> TempLanes = new PriorityQueue<>();
-		PriorityQueue<Titan> Titans_On_Lane = new PriorityQueue<>();
-		// PriorityQueue<Titan> TempTitans = new PriorityQueue<>();
-		PriorityQueue<Lane> Lanes = getLanes();
-		Titan Current_Titan;
-		for (int i = 0; i < Lanes.size(); i++) {
-			Titans_On_Lane = (Lanes.peek()).getTitans();
-			// looping through the PriorityQueue of Lanes, getting the priorityQueue of
-			// titans on each of the lanes.
-			TempLanes.add(Lanes.poll());
-			// poll is a method that is the same as peek, but it removes the element
-			// afterwards. Since this is a PriorityQueue and you can only get the highest
-			// priority object in the queue, i poll every element after getting the
-			// Titans_On_Lane so that i can iterate through the PriorityQueue.
-			for (int j = 0; j < Titans_On_Lane.size(); j++) {
-				Current_Titan = (Titans_On_Lane.poll());
-				Current_Titan.move();
-				if (Current_Titan instanceof ColossalTitan)
-					Current_Titan.setSpeed(Current_Titan.getSpeed() + 1);
-				// now that i have the PriorityQueue of all the titans on the lane, i get each
-				// titan individually and set their distance according to their speed.
-			}
+		for (Lane lane : lanes) {
+			if (lane.isLaneLost())
+				continue;
+
+			for (Titan titan : lane.getTitans())
+				titan.move();
 		}
 	}
 
 	private int performWeaponsAttacks() {
-		PriorityQueue<Lane> TempLanes = new PriorityQueue<>();
-		ArrayList<Weapon> Weapons_On_Lane = new ArrayList<>();
-		PriorityQueue<Titan> Titans_On_Lane = new PriorityQueue<>();
-		PriorityQueue<Lane> Lanes = getLanes();
-		Weapon Current_Weapon;
-		Titan Current_Titan;
+		int resources = 0;
 
+		for (Lane lane : lanes) {
+			if (lane.isLaneLost())
+				continue;
 
-		
-		for (int i = 0; i < Lanes.size(); i++) {
-			Weapons_On_Lane = ((Lanes.peek())).getWeapons(); // looping through the PriorityQueue of Lanes, getting the
-																// ArrayList of weapons on each of the lanes.
-			Titans_On_Lane = (Lanes.peek()).getTitans(); // looping through the PriorityQueue of Lanes, getting the
-															// priorityQueue of titans on each of the lanes.
-			Lanes.poll();
-			for (int j = 0; j < Weapons_On_Lane.size(); j++) {
-				Current_Weapon = (Weapons_On_Lane.get(j));
-				for (int k = 0; k < Titans_On_Lane.size(); k++) {
-					Current_Titan = (Titans_On_Lane.poll());
-					Current_Titan.setCurrentHealth(Current_Titan.getCurrentHealth() - Current_Weapon.getDamage());
-				}
-				// for each lane(first loop), we take the jth weapon in the arrayList (2nd
-				// loop), and subtract all the titans' health by the damage of that weapon(3rd
-				// loop). we keep doing this for all the TIANS, from all the WEAPONS, in all the
-				// LANES.
+			for (Weapon weapon : lane.getWeapons()) {
+				resources += weapon.turnAttack(lane.getTitans());
 			}
-			// i am not proud of this code
 		}
+
+		return resources;
 	}
+
 	private int performTitansAttacks(){
 		PriorityQueue<Titan> Titans_On_Lane = new PriorityQueue<>();
 		PriorityQueue<Lane> Lanes = getLanes();
@@ -309,4 +253,4 @@ public class Battle {
 	}
 }
 }
-	}
+}
