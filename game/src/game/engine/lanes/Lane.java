@@ -77,12 +77,11 @@ public class Lane implements Comparable<Lane> {
 		for (Weapon weapon : weapons) {
 			resources += weapon.turnAttack(titans);
 		}
-
 		return resources;
 	}
 
 	public boolean isLaneLost() {
-		return laneWall.getCurrentHealth() <= 0;
+		return laneWall.getCurrentHealth()<= 0;
 	}
 
 	public void updateLaneDangerLevel() {

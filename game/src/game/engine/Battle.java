@@ -203,7 +203,6 @@ public class Battle {
 			tempLane.addTitan(Titan_To_Be_Added);
 			tempLane.updateLaneDangerLevel();
 		}
-
 	}
 
 	private void moveTitans() {
@@ -232,25 +231,45 @@ public class Battle {
 	}
 
 	private int performTitansAttacks(){
-		PriorityQueue<Titan> Titans_On_Lane = new PriorityQueue<>();
-		PriorityQueue<Lane> Lanes = getLanes();
-		Lane Current_Lane;
-		Titan Current_Titan;
-		int total_resource_value_returned=0;
-		while(Lanes.size()!=0) {
-			Titans_On_Lane = (Lanes.peek()).getTitans();
-			Current_Lane=Lanes.peek();
-			Lanes.poll();
-			for (int k = 0; k < Titans_On_Lane.size(); k++) {
-				Current_Titan = (Titans_On_Lane.poll());
-				if (Current_Titan.getDistance()==0){
-					Current_Titan.attack(Current_Lane.getLaneWall());
-					if(Current_Lane.getLaneWall().getCurrentHealth()<=0){
-						total_resource_value_returned+=Current_Lane.getLaneWall().getResourcesValue();
-						Current_Lane.
-				}
-				}
+	int resources = 0;
+	for (Lane lane: getLanes()){
+		if(lane.isLaneLost())
+			continue;
+		for(Titan titan : lane.getTitans()){
+			if(titan.hasReachedTarget())
+			resources+=titan.attack(lane.getLaneWall());
+		}
 	}
+	return resources;
+	}
+
+	private void updateLanesDangerLevels(){
+		for(Lane lane: getLanes()){
+			if(!lane.isLaneLost())
+			lane.updateLaneDangerLevel();
+		}
+	}
+	private void finalizeTurns(){
+		numberOfTurns++;
+	if(getNumberOfTurns()<15)
+	setBattlePhase(BattlePhase.EARLY);
+	else if(getNumberOfTurns()<30)
+	setBattlePhase(BattlePhase.INTENSE);
+	else if(getNumberOfTurns()%5==0){
+	if(getNumberOfTurns()>30){
+	setBattlePhase(BattlePhase.GRUMBLING);
+	numberOfTitansPerTurn*=2;
+	}
+	else
+		setBattlePhase(BattlePhase.GRUMBLING);
+		}
+	}
+	private void performTurn(){
+
+		if(){
+			for( Lane lane : )
+		}
+	}
+
 }
-}
-}
+
