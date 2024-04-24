@@ -1,9 +1,6 @@
 package game.engine.titans;
 
 import java.io.IOException;
-import java.util.HashMap;
-
-import game.engine.dataloader.DataLoader;
 
 public class TitanRegistry // For storing the titan's information from the csv file read in the data loader
 {
