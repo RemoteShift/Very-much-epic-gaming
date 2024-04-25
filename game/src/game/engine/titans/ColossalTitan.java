@@ -10,8 +10,9 @@ public class ColossalTitan extends Titan {
 
 	@Override
 	public boolean move() {
+		boolean whatever = super.move();
 		setSpeed(getSpeed() + 1);
-		return super.move();
+		return whatever;
 	}
 
 }

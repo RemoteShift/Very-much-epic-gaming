@@ -58,7 +58,7 @@ public class WeaponRegistry {
 		return maxRange;
 	}
 
-	public Weapon buildWeapon() throws IOException {
+	public Weapon buildWeapon() {
 		switch (code) {
 			case 1:
 				return new PiercingCannon(damage);

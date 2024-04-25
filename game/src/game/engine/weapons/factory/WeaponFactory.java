@@ -19,7 +19,7 @@ public class WeaponFactory {
 		return weaponShop;
 	}
 
-	public FactoryResponse buyWeapon(int resources, int weaponCode) throws InsufficientResourcesException, IOException {
+	public FactoryResponse buyWeapon(int resources, int weaponCode) throws InsufficientResourcesException {
 		WeaponRegistry weaponRegistry = weaponShop.get(weaponCode);
 		if (resources >= weaponRegistry.getPrice()) {
 			return new FactoryResponse(weaponRegistry.buildWeapon(), resources - weaponRegistry.getPrice());

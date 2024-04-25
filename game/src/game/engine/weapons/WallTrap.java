@@ -28,12 +28,14 @@ public class WallTrap extends Weapon {
 				}
 			}
 
-			resources += super.attack(reachedTitans.peek());
-			if (reachedTitans.peek().getCurrentHealth() < 0)
-				reachedTitans.poll();
+			if (!reachedTitans.isEmpty()) {
+				resources += super.attack(reachedTitans.peek());
+				if (reachedTitans.peek().getCurrentHealth() < 0)
+					reachedTitans.poll();
+			}
 
 			for (int i = 0; i < tempTitans.length; i++) {
-				if (tempTitans[i].getCurrentHealth() > 0)
+				if (tempTitans[i] != null && tempTitans[i].getCurrentHealth() > 0)
 					laneTitans.add(tempTitans[i]);
 			}
 		}

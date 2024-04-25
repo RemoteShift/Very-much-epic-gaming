@@ -13,11 +13,10 @@ public class AbnormalTitan extends Titan {
 	@Override
 	public int attack(Attackee Wall) {
 		int resources = 0;
-		resources += Wall.takeDamage(getDamage());
+		resources += super.attack(Wall);
 		if (Wall.getCurrentHealth() > 0)
-			resources += Wall.takeDamage(getDamage());
+			resources += super.attack(Wall);
 
 		return resources;
 	}
-
 }

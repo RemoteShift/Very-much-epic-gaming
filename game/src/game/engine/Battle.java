@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.PriorityQueue;
+import java.util.Stack;
 
 import game.engine.base.Wall;
 import game.engine.dataloader.DataLoader;
@@ -12,7 +13,7 @@ import game.engine.exceptions.InvalidLaneException;
 import game.engine.lanes.Lane;
 import game.engine.titans.Titan;
 import game.engine.titans.TitanRegistry;
-import game.engine.weapons.Weapon;
+import game.engine.weapons.factory.FactoryResponse;
 import game.engine.weapons.factory.WeaponFactory;
 
 public class Battle {
@@ -132,7 +133,7 @@ public class Battle {
 
 	// Milestone 2 game setup methods:
 
-	private void refillApproachingTitans() throws IOException {
+	public void refillApproachingTitans() throws IOException {
 		approachingTitans.clear();
 		TitanRegistry tempTitanRegistry;
 		switch (battlePhase) {
@@ -159,30 +160,26 @@ public class Battle {
 		}
 	}
 
-	void purchaseWeapon(int weaponCode, Lane lane)
+	public void purchaseWeapon(int weaponCode, Lane lane)
 			throws InsufficientResourcesException, InvalidLaneException, IOException {
-		if (lane.isLaneLost() == true) {
+		if (!lanes.contains(lane)) {
 			throw new InvalidLaneException("Cannot Place here; lane is lost");
 		}
 
-		switch (weaponCode) {
-			case 1:
-				weaponFactory.buyWeapon(resourcesGathered, 1);
-				lane.addWeapon(weaponFactory.getWeaponShop().get(1).buildWeapon());
-			case 2:
-				weaponFactory.buyWeapon(resourcesGathered, 2);
-				lane.addWeapon(weaponFactory.getWeaponShop().get(2).buildWeapon());
-			case 3:
-				weaponFactory.buyWeapon(resourcesGathered, 3);
-				lane.addWeapon(weaponFactory.getWeaponShop().get(3).buildWeapon());
-			case 4:
-				weaponFactory.buyWeapon(resourcesGathered, 4);
-				lane.addWeapon(weaponFactory.getWeaponShop().get(4).buildWeapon());
-		}
+		FactoryResponse bruh = weaponFactory.buyWeapon(resourcesGathered, weaponCode);
+		lane.addWeapon(bruh.getWeapon());
+		setResourcesGathered(bruh.getRemainingResources());
+
+		performTurn();
 	}
 
 	void passTurn() throws IOException {
-		performTurn();
+		moveTitans();
+		performWeaponsAttacks();
+		performTitansAttacks();
+		addTurnTitansToLane();
+		updateLanesDangerLevels();
+		finalizeTurns();
 	}
 
 	private void addTurnTitansToLane() throws IOException {
@@ -210,54 +207,55 @@ public class Battle {
 		int resources = 0;
 
 		for (Lane lane : lanes) {
-			if (lane.isLaneLost())
-				continue;
-
-			for (Weapon weapon : lane.getWeapons()) {
-				resources += weapon.turnAttack(lane.getTitans());
-			}
+			resources += lane.performLaneWeaponsAttacks();
 		}
-
+		resourcesGathered += resources;
+		score += resources;
 		return resources;
 	}
 
 	private int performTitansAttacks() {
 		int resources = 0;
-		for (Lane lane : getLanes()) {
-			if (lane.isLaneLost())
-				continue;
-			for (Titan titan : lane.getTitans()) {
-				if (titan.hasReachedTarget())
-					resources += titan.attack(lane.getLaneWall());
-			}
+		int size = lanes.size();
+		Stack<Lane> tempLanes = new Stack<>();
+		for (int i = 0; i < size; i++) {
+			resources += lanes.peek().performLaneTitansAttacks();
+			if (!lanes.peek().getLaneWall().isDefeated())
+				tempLanes.add(lanes.peek());
+			lanes.poll();
 		}
+
+		lanes.addAll(tempLanes);
+
 		return resources;
 	}
 
 	private void updateLanesDangerLevels() {
-		for (Lane lane : getLanes()) {
-			if (!lane.isLaneLost())
-				lane.updateLaneDangerLevel();
+		Stack<Lane> tempLanes = new Stack<>();
+		int size = lanes.size();
+		for (int i = 0; i < size; i++) {
+			tempLanes.add(lanes.poll());
+			tempLanes.peek().updateLaneDangerLevel();
 		}
+
+		lanes.addAll(tempLanes);
 	}
 
 	private void finalizeTurns() {
 		numberOfTurns++;
+
 		if (getNumberOfTurns() < 15)
 			setBattlePhase(BattlePhase.EARLY);
 		else if (getNumberOfTurns() < 30)
 			setBattlePhase(BattlePhase.INTENSE);
-		else if (getNumberOfTurns() % 5 == 0) {
-			if (getNumberOfTurns() > 30) {
-				setBattlePhase(BattlePhase.GRUMBLING);
+		else {
+			if (getNumberOfTurns() > 30 && getNumberOfTurns() % 5 == 0)
 				numberOfTitansPerTurn *= 2;
-			} else
-				setBattlePhase(BattlePhase.GRUMBLING);
+			setBattlePhase(BattlePhase.GRUMBLING);
 		}
 	}
 
 	private void performTurn() throws IOException {
-
 		moveTitans();
 		performWeaponsAttacks();
 		performTitansAttacks();
