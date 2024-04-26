@@ -18,9 +18,10 @@ public class WallTrap extends Weapon {
 	public int turnAttack(PriorityQueue<Titan> laneTitans) {
 		int resources = 0;
 		Titan[] tempTitans = new Titan[laneTitans.size()];
+		int size = laneTitans.size();
 
 		if (laneTitans.size() > 0) {
-			for (int i = 0; i < laneTitans.size(); i++) {
+			for (int i = 0; i < size; i++) {
 				if ((tempTitans[i] = laneTitans.poll()).hasReachedTarget()) {
 					if (!reachedTitans.contains(tempTitans[i])) {
 						reachedTitans.add(tempTitans[i]);
@@ -30,7 +31,7 @@ public class WallTrap extends Weapon {
 
 			if (!reachedTitans.isEmpty()) {
 				resources += super.attack(reachedTitans.peek());
-				if (reachedTitans.peek().getCurrentHealth() < 0)
+				if (reachedTitans.peek().isDefeated())
 					reachedTitans.poll();
 			}
 

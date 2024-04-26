@@ -1,7 +1,5 @@
 package game.engine.weapons;
 
-import java.io.IOException;
-
 public class WeaponRegistry {
 	private final int code;
 	private int price;
