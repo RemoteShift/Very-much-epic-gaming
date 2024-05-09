@@ -38,7 +38,7 @@ public class Main extends Application {
 				Close(stage);
 			});
 			
-			stage.setFullScreen(true);
+			stage.setFullScreen(false);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

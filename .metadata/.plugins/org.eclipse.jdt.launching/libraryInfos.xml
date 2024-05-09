@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <libraryInfos>
+    <libraryInfo home="C:\Mostafa\CSEN\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.11.v20240426-1830" version="17.0.11"/>
     <libraryInfo home="C:\Program Files\Java\jdk-20" version="20.0.1"/>
     <libraryInfo home="C:\Users\mosta\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_20.0.2.v20230801-2057\jre" version="20.0.2"/>
+    <libraryInfo home="C:\Mostafa\CSEN\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.11.v20240426-1830\jre" version="17.0.11"/>
     <libraryInfo home="C:\Users\allou\AppData\Local\Programs\Eclipse Adoptium\jdk-17.0.6.10-hotspot" version="17.0.6"/>
     <libraryInfo home="C:\Users\mosta\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_20.0.2.v20230801-2057" version="20.0.2"/>
 </libraryInfos>
