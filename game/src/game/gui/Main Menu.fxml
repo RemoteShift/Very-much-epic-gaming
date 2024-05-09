@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.gui.MainMenuController">
+   <children>
+      <Label fx:id="title" alignment="CENTER" layoutY="48.0" prefHeight="17.0" prefWidth="600.0" text="Za3belLLC" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <Button fx:id="howToPlay" alignment="CENTER" layoutX="254.0" layoutY="255.0" mnemonicParsing="false" onAction="#HowToPlay" text="How to play" textAlignment="CENTER">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button layoutX="272.0" layoutY="181.0" mnemonicParsing="false" onAction="#Play" text="Play">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button layoutX="278.0" layoutY="337.0" mnemonicParsing="false" onAction="#Close" text="Exit :(" />
+   </children>
+</AnchorPane>
