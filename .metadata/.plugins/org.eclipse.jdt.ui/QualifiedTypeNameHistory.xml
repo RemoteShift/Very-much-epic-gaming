@@ -19,4 +19,13 @@
     <fullyQualifiedTypeName name="javafx.scene.control.Alert.AlertType"/>
     <fullyQualifiedTypeName name="javafx.scene.control.ButtonType"/>
     <fullyQualifiedTypeName name="javafx.scene.Group"/>
+    <fullyQualifiedTypeName name="javafx.scene.control.RadioButton"/>
+    <fullyQualifiedTypeName name="game.engine.Battle"/>
+    <fullyQualifiedTypeName name="javafx.stage.Screen"/>
+    <fullyQualifiedTypeName name="javafx.beans.value.ChangeListener"/>
+    <fullyQualifiedTypeName name="javafx.beans.value.ObservableValue"/>
+    <fullyQualifiedTypeName name="javafx.scene.transform.Scale"/>
+    <fullyQualifiedTypeName name="javafx.scene.layout.Pane"/>
+    <fullyQualifiedTypeName name="javafx.scene.layout.AnchorPane"/>
+    <fullyQualifiedTypeName name="javafx.stage.StageStyle"/>
 </qualifiedTypeNameHistroy>
