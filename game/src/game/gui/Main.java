@@ -25,7 +25,6 @@ public class Main extends Application {
 	public void start(Stage stage) {
 		try {
 			Pane root = FXMLLoader.load(getClass().getResource("Main Menu.fxml"));
-			
 			Scene scene1 = new Scene(root);
 			String css1 = getClass().getResource("application.css").toExternalForm();
 			
