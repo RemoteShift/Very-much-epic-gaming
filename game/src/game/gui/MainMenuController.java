@@ -29,7 +29,7 @@ import javafx.util.Duration;
 
 public class MainMenuController{
 
-	private static Scene mainScene;
+	public static Scene mainScene;
 	private AnchorPane root;
 	
 	@FXML
@@ -60,10 +60,12 @@ public class MainMenuController{
 	public void Play(ActionEvent e) throws IOException
 	{
 		mainScene = ((Node)e.getSource()).getScene();
+		((Node)e.getSource()).setDisable(true);
 		Stage stage = new Stage();
 		Parent root = FXMLLoader.load(getClass().getResource("ChooseDiff.fxml"));
 		Scene scene = new Scene(root, 600, 420);
 		
+		stage.setOnCloseRequest(event -> ((Node)e.getSource()).setDisable(false));
 		
 		stage.setTitle("Choose");
 		stage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
@@ -91,7 +93,7 @@ public class MainMenuController{
 	
 	public void StartGame(ActionEvent e) throws IOException
 	{
-		Parent root = FXMLLoader.load(getClass().getResource("Game.fxml"));
+		
 		Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		
 		PauseTransition pause = new PauseTransition(Duration.seconds(2.5));
@@ -108,17 +110,25 @@ public class MainMenuController{
 			exception.setDisable(true);
 		});
 		
-		Battle battle = null;
+		Battle battle;
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("Game.fxml"));
+		Parent root = loader.load();
+		GameController gameController = loader.getController();
+		GameController.instance = gameController;
 		
 		if(easy.isSelected())
 		{
 			battle = new Battle(0, 0, 500, 3, 250);
+			GameController.battle = battle;
+			gameController.initialize();
 			stage.close();
 			mainScene.setRoot(root);
 		}
 		else if(hard.isSelected())
 		{
 			battle = new Battle(0, 0, 500, 5, 125);
+			GameController.battle = battle;
+			gameController.initialize();
 			stage.close();
 			mainScene.setRoot(root);
 		}
@@ -126,11 +136,6 @@ public class MainMenuController{
 		{
 			exception.setOpacity(1.0);
 			pause.play();
-		}
-		
-		if(battle != null)
-		{
-			
 		}
 	}
 }

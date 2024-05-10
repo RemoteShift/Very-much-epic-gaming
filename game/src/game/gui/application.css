@@ -7,4 +7,7 @@
 	-fx-text-fill:"white";
 }
 
+.mygridStyle Line {
+    -fx-stroke: white;
+}
 

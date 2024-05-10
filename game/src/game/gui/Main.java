@@ -16,6 +16,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.transform.Scale;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
 
 
 public class Main extends Application {
@@ -30,7 +32,7 @@ public class Main extends Application {
 			
 			stage.setTitle("Za3be e e e elllll");
 			stage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
-			
+		
 			stage.setResizable(false);
 			scene1.getStylesheets().add(css1);
 			stage.setScene(scene1);
@@ -42,6 +44,9 @@ public class Main extends Application {
 				Close(stage);
 			});
 			
+			stage.setFullScreenExitHint("Press F11 to exit fullscreen");
+			stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("F11"));
+			
 			stage.setFullScreen(true);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -52,6 +57,7 @@ public class Main extends Application {
 	{
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.initOwner(stage);
+		alert.getDialogPane().getScene().getStylesheets().clear();
 		alert.setTitle("Are you sure?");
 		alert.setHeaderText("Are you sure that you want to close this game?");
 		alert.setContentText("Your actions have consequences.");

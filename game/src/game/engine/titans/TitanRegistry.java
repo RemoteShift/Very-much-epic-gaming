@@ -52,7 +52,7 @@ public class TitanRegistry // For storing the titan's information from the csv f
 		return dangerLevel;
 	}
 
-	public Titan spawnTitan(int distanceFromBase) throws IOException {
+	public Titan spawnTitan(int distanceFromBase) {
 		switch (code) {
 			case 1:
 				return new PureTitan(baseHealth, baseDamage, heightInMeters,

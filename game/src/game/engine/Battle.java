@@ -15,6 +15,7 @@ import game.engine.titans.Titan;
 import game.engine.titans.TitanRegistry;
 import game.engine.weapons.factory.FactoryResponse;
 import game.engine.weapons.factory.WeaponFactory;
+import game.gui.GameController;
 
 public class Battle {
 	private static final int[][] PHASES_APPROACHING_TITANS = {
@@ -35,7 +36,9 @@ public class Battle {
 	private final ArrayList<Titan> approachingTitans; // treated as a Queue
 	private final PriorityQueue<Lane> lanes;
 	private final ArrayList<Lane> originalLanes;
-
+	
+	private GameController gameController;
+	
 	public Battle(int numberOfTurns, int score, int titanSpawnDistance, int initialNumOfLanes,
 			int initialResourcesPerLane) throws IOException {
 		super();
@@ -51,6 +54,7 @@ public class Battle {
 		this.lanes = new PriorityQueue<>();
 		this.originalLanes = new ArrayList<>();
 		this.initializeLanes(initialNumOfLanes);
+		this.gameController = GameController.instance;
 	}
 
 	public int getNumberOfTurns() {
@@ -133,7 +137,7 @@ public class Battle {
 
 	// Milestone 2 game setup methods:
 
-	public void refillApproachingTitans() throws IOException {
+	public void refillApproachingTitans() {
 		approachingTitans.clear();
 		TitanRegistry tempTitanRegistry;
 		switch (battlePhase) {
@@ -161,7 +165,7 @@ public class Battle {
 	}
 
 	public void purchaseWeapon(int weaponCode, Lane lane)
-			throws InsufficientResourcesException, InvalidLaneException, IOException {
+			throws InsufficientResourcesException, InvalidLaneException{
 		if (!lanes.contains(lane)) {
 			throw new InvalidLaneException("Cannot Place here; lane is lost");
 		}
@@ -173,7 +177,7 @@ public class Battle {
 		performTurn();
 	}
 
-	void passTurn() throws IOException {
+	void passTurn(){
 		moveTitans();
 		performWeaponsAttacks();
 		performTitansAttacks();
@@ -182,7 +186,7 @@ public class Battle {
 		finalizeTurns();
 	}
 
-	private void addTurnTitansToLane() throws IOException {
+	private void addTurnTitansToLane(){
 		for (int i = 0; i < numberOfTitansPerTurn; i++) {
 			if (this.approachingTitans.isEmpty())
 				refillApproachingTitans();
@@ -222,6 +226,8 @@ public class Battle {
 			resources += lanes.peek().performLaneTitansAttacks();
 			if (!lanes.peek().getLaneWall().isDefeated())
 				tempLanes.add(lanes.peek());
+			else
+				gameController.killLane(i);
 			lanes.poll();
 		}
 
@@ -255,7 +261,7 @@ public class Battle {
 		}
 	}
 
-	private void performTurn() throws IOException {
+	private void performTurn(){
 		moveTitans();
 		performWeaponsAttacks();
 		performTitansAttacks();

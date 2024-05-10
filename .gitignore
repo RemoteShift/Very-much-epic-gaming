@@ -13,7 +13,6 @@
 .metadata/.plugins/org.eclipse.jdt.launching/.install.xml
 .metadata/.plugins/org.eclipse.jdt.launching/libraryInfos.xml
 .metadata/version.ini
-game/src/game/gui/Main.java
 .metadata/.log
 .metadata/.plugins/org.eclipse.core.resources/.projects/.org.eclipse.egit.core.cmp/.location
 .metadata/.plugins/org.eclipse.core.resources/.projects/game/org.eclipse.egit.core/GitProjectData.properties

@@ -1,8 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="game.gui.GameController">
-	<!-- TODO Add Nodes -->
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.gui.GameController">
+   <children>
+      <Label fx:id="turns" alignment="CENTER_RIGHT" layoutX="1524.0" layoutY="42.0" prefHeight="73.0" prefWidth="319.0" text="Turns: ">
+         <font>
+            <Font size="50.0" />
+         </font>
+      </Label>
+      <Label fx:id="phase" alignment="CENTER" layoutX="1626.0" layoutY="136.0" prefHeight="53.0" prefWidth="280.0" text="GRUMBLING">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="score" layoutX="58.0" layoutY="42.0" prefHeight="73.0" prefWidth="271.0" text="Score: ">
+         <font>
+            <Font size="50.0" />
+         </font>
+      </Label>
+      <Label fx:id="resource" layoutX="58.0" layoutY="137.0" prefHeight="53.0" prefWidth="936.0" text="Resources: ">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <GridPane fx:id="gridPane" layoutX="-2.0" layoutY="237.0" maxHeight="716.0" maxWidth="1826.0" minHeight="716.0" minWidth="1826.0" prefHeight="716.0" prefWidth="1826.0" AnchorPane.leftAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+      </GridPane>
+   </children>
 </AnchorPane>
