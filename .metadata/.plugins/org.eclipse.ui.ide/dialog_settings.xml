@@ -15,6 +15,7 @@
 		<item key="WizardProjectsImportPage.STORE_CLOSE_CREATED_PROJECTS_ID" value="false"/>
 		<item key="WizardProjectsImportPage.STORE_HIDE_CONFLICTING_PROJECTS_ID" value="false"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="C:\Users\mosta\OneDrive\Documents\GitHub\Very-much-epic-gaming\game"/>
 			<item value="C:\Users\allou\OneDrive\Desktop\Very-much-epic-gaming\game"/>
 			<item value="C:\Users\allou\OneDrive\Desktop\Very Much Epic Gaming\ForkKnife\Very-much-epic-gaming"/>
 		</list>
