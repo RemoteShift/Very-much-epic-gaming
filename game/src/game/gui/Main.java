@@ -15,6 +15,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
 import javafx.scene.transform.Scale;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 
 
 public class Main extends Application {
@@ -27,6 +28,9 @@ public class Main extends Application {
 			String css1 = getClass().getResource("application.css").toExternalForm();
 			
 			
+			stage.setTitle("Za3be e e e elllll");
+			stage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
+			
 			stage.setResizable(false);
 			scene1.getStylesheets().add(css1);
 			stage.setScene(scene1);
@@ -38,7 +42,7 @@ public class Main extends Application {
 				Close(stage);
 			});
 			
-			stage.setFullScreen(false);
+			stage.setFullScreen(true);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
