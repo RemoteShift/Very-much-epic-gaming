@@ -44,6 +44,12 @@ public class GameController{
 	@FXML
 	ImageView PiercingCannonShop;
 	@FXML
+	ImageView SniperCannonShop;
+	@FXML
+	ImageView VolleySpreadCannonShop;
+	@FXML
+	ImageView WallTrapShop;
+	@FXML
 	Label exception;
 	
 	private Cursor originalCursor = Cursor.DEFAULT;
@@ -115,9 +121,18 @@ public class GameController{
 			resource.setText("Resources: " + battle.getResourcesGathered());
 		}
 		//this is for price and damage to display
-		Tooltip PiercingCannonTooltip = new Tooltip("Name: Piercing Cannon");
+		Tooltip PiercingCannonTooltip = new Tooltip("Name: Anti-Titan Shell \n Type: Piercing Cannon \n Price: 25 \n Damage: 10 ");
 		PiercingCannonTooltip.setShowDelay(Duration.millis(20));
-		Tooltip.install(PiercingCannonShop,PiercingCannonTooltip); 
+		Tooltip SniperCannonTooltip = new Tooltip("Name: LongRangeSpear \n Type: Sniper Cannon \n Price: 25 \n Damage: 35 ");
+		PiercingCannonTooltip.setShowDelay(Duration.millis(20));
+		Tooltip VolleySpreadCannonTooltip = new Tooltip("Name:  VolleySpread Cannon \n Type: WallSpread Cannon \n Price: 100 \n Damage: 5 ");
+		PiercingCannonTooltip.setShowDelay(Duration.millis(20));
+		Tooltip WallTrapTooltip = new Tooltip("Name: Wall Trap \n Type: Proximity Trap \n Price: 75 \n Damage: 100 ");
+		PiercingCannonTooltip.setShowDelay(Duration.millis(20));
+		Tooltip.install(PiercingCannonShop,PiercingCannonTooltip);
+		Tooltip.install(SniperCannonShop,SniperCannonTooltip);
+		Tooltip.install(VolleySpreadCannonShop,VolleySpreadCannonTooltip);
+		Tooltip.install(WallTrapShop,WallTrapTooltip);
 		
 		
 		PiercingCannonShop.setOnDragDetected(event -> {
@@ -136,6 +151,58 @@ public class GameController{
 		PiercingCannonShop.setOnMouseReleased(event -> {
 			PiercingCannonShop.getScene().setCursor(Cursor.DEFAULT);
 		});
+		
+		SniperCannonShop.setOnDragDetected(event -> {
+			
+			Dragboard db = SniperCannonShop.startDragAndDrop(TransferMode.ANY);
+			ClipboardContent content = new ClipboardContent();
+			content.putString("1");
+			db.setContent(content);
+		    ImageView cursorImage = new ImageView(SniperCannonShop.getImage());
+		    cursorImage.setFitHeight(32);
+		    cursorImage.setFitWidth(32);
+		    cursorImage.setOpacity(0.2); 
+		    Scene scene = SniperCannonShop.getScene();
+		    scene.setCursor(new ImageCursor(cursorImage.getImage()));
+		  });
+		SniperCannonShop.setOnMouseReleased(event -> {
+			SniperCannonShop.getScene().setCursor(Cursor.DEFAULT);
+		});
+		
+		VolleySpreadCannonShop.setOnDragDetected(event -> {
+			
+			Dragboard db = VolleySpreadCannonShop.startDragAndDrop(TransferMode.ANY);
+			ClipboardContent content = new ClipboardContent();
+			content.putString("1");
+			db.setContent(content);
+		    ImageView cursorImage = new ImageView(VolleySpreadCannonShop.getImage());
+		    cursorImage.setFitHeight(32);
+		    cursorImage.setFitWidth(32);
+		    cursorImage.setOpacity(0.2); 
+		    Scene scene = VolleySpreadCannonShop.getScene();
+		    scene.setCursor(new ImageCursor(cursorImage.getImage()));
+		  });
+		VolleySpreadCannonShop.setOnMouseReleased(event -> {
+			VolleySpreadCannonShop.getScene().setCursor(Cursor.DEFAULT);
+		});
+		
+		WallTrapShop.setOnDragDetected(event -> {
+			
+			Dragboard db = WallTrapShop.startDragAndDrop(TransferMode.ANY);
+			ClipboardContent content = new ClipboardContent();
+			content.putString("1");
+			db.setContent(content);
+		    ImageView cursorImage = new ImageView(WallTrapShop.getImage());
+		    cursorImage.setFitHeight(32);
+		    cursorImage.setFitWidth(32);
+		    cursorImage.setOpacity(0.2); 
+		    Scene scene = WallTrapShop.getScene();
+		    scene.setCursor(new ImageCursor(cursorImage.getImage()));
+		  });
+		WallTrapShop.setOnMouseReleased(event -> {
+			WallTrapShop.getScene().setCursor(Cursor.DEFAULT);
+		});
+		
 	}
 	
 	public void killLane(int i)
