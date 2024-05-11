@@ -1,6 +1,8 @@
 package game.gui;
 
 
+import java.awt.TextField;
+
 import game.engine.Battle;
 
 import game.engine.lanes.Lane;
@@ -10,6 +12,7 @@ import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
@@ -17,6 +20,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 
@@ -90,6 +94,28 @@ public class GameController{
 			score.setText("Score: " + battle.getScore());
 			resource.setText("Resources: " + battle.getResourcesGathered());
 		}
+		//this is for price and damage to display
+		Tooltip PiercingCannonTooltip = new Tooltip("Name: Piercing Cannon//nCost:idk"+"//n"+"  g");
+		PiercingCannonTooltip.setShowDelay(Duration.millis(20));
+		Tooltip.install(PiercingCannonShop,PiercingCannonTooltip); 
+		
+		
+		PiercingCannonShop.setOnDragDetected(event -> {
+		    ImageView cursorImage = new ImageView(PiercingCannonShop.getImage());
+		    
+		    cursorImage.setFitHeight(32);
+		    cursorImage.setFitWidth(32);
+		    cursorImage.setOpacity(0.5); 
+		    
+		    Scene scene = PiercingCannonShop.getScene(); 
+
+		    scene.setCursor(new ImageCursor(cursorImage.getImage()));
+		    PiercingCannonShop.requestFocus();
+		  });
+		PiercingCannonShop.setOnMouseReleased(event -> {
+			PiercingCannonShop.getScene().setCursor(Cursor.DEFAULT);
+		});
+
 	}
 	
 	public void killLane(int i)
@@ -109,102 +135,13 @@ public class GameController{
 	    }
 	    return null;
 	}
-
-
-//public void BeginDrag() {
-//	PiercingCannonShop.setOnDragDetected(event -> {
-//		  // Existing drag setup logic (data, transfer mode, etc.)
-//		  
-//		  // Create a new ImageView for the custom cursor
-//		  Image cursorImage = PiercingCannonShop.getImage();
-//		// cursorImage. // Adjust size as needed
-//		//  cursorImage.setFitHeight(32); // Adjust size as needed
-//	//	  cursorImage.setOpacity(.5);
-//
-//		  // Set the scene cursor to the custom image view
-//		  Scene scene = PiercingCannonShop.getScene(); 
-//		  scene.setCursor(new ImageCursor(cursorImage));
-//		  
-//		  event.consume();
-//		});
-//}
-//public void handleDrop() {
-//		  Scene scene = PiercingCannonShop.getScene(); 
-//		  scene.setCursor(Cursor.DEFAULT);
-//  
-//	}
-//
-//}
-	public void BeginDrag() {
-		  PiercingCannonShop.setOnDragDetected(event -> {
-		    // Existing drag setup logic (data, transfer mode, etc.)
-
-		    // Create a new ImageView for the custom cursor
-		    Image cursorImage = PiercingCannonShop.getImage(); // Assuming PiercingCannonShop has getImage() to get the image
-
-		    // Set cursor size (optional)
-		    //cursorImage.setFitHeight(32); // Adjust size as needed
-		    //cursorImage.setFitWidth(32);  // Adjust size as needed
-
-		    // Set cursor opacity (optional)
-		    //cursorImage.setOpacity(0.5); // Adjust opacity as needed
-
-		    // Get the scene (assuming scene is accessible)
-		    Scene scene = PiercingCannonShop.getScene(); 
-
-		    // Store the original cursor;
-
-		    // Set the scene cursor to the custom image view
-		    scene.setCursor(new ImageCursor(cursorImage));
-		  });
-
-		  // Drag exited handler to reset cursor
-		  PiercingCannonShop.setOnDragDropped(event2 -> {
-		     Scene scene = PiercingCannonShop.getScene();
-			scene.setCursor(originalCursor);
-		    }
-		  );
-		}
-	
-	public void initiateDragWithImageCursor() {
-		  // Get the scene (assuming scene is accessible)
-		  Scene scene = PiercingCannonShop.getScene();
-
-		  // Store the original cursor (assuming scene is accessible)
-		  Cursor originalCursor = scene.getCursor();
-
-		  // Create a new ImageView for the custom cursor
-		  Image cursorImage = PiercingCannonShop.getImage(); // Assuming PiercingCannonShop has getImage() to get the image
-
-		  // Set cursor size (optional)
-		  //cursorImage.setFitHeight(32); // Adjust size as needed
-		  //cursorImage.setFitWidth(32);  // Adjust size as needed
-
-		  // Set cursor opacity (optional)
-		  //cursorImage.setOpacity(0.5); // Adjust opacity as needed
-
-		  // Create a temporary final variable to hold the cursor (alternative approach)
-		  final Cursor temporaryCursor = new ImageCursor(cursorImage);
-
-		  // Set event filters to change cursor on drag detected and reset on drag dropped
-		  PiercingCannonShop.addEventFilter(DragEvent.ANY, event -> {
-		    scene.setCursor(temporaryCursor);
-		  });
-
-		  PiercingCannonShop.addEventFilter(DragEvent.DRAG_DROPPED, event -> {
-		    scene.setCursor(originalCursor);
-		  });
-
-		  // Optionally remove event filters after drag operation completes (cleaner approach)
-		  PiercingCannonShop.setOnDragDropped(droppedEvent -> {
-//		    PiercingCannonShop.removeremoveEventFilter(DragEvent.ANY);
-	//	    PiercingCannonShop.removeEventFilter(DragEvent.DRAG_DROPPED);
-		  });
-		}
-		public void handleDrop(DragEvent event) {
-		  Scene scene = PiercingCannonShop.getScene(); 
-		  scene.setCursor(Cursor.DEFAULT); // Reset to default cursor (optional)
-		}}
+	public void buy() {
+	getNodeFromGridPane(gridPane,1,1).setOnDragDropped(event2 -> {
+		Node focusOwner = mainScene.getFocusOwner();
+		if(focusOwner.equals(PiercingCannonShop))
+			System.out.println("fuck yeah");
+	});}
+}
 
 
 
