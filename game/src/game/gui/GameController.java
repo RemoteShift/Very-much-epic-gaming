@@ -2,10 +2,12 @@ package game.gui;
 
 
 import java.awt.TextField;
+import java.io.IOException;
 
 import game.engine.Battle;
-
+import game.engine.exceptions.InsufficientResourcesException;
 import game.engine.lanes.Lane;
+import game.engine.weapons.factory.WeaponFactory;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
@@ -21,7 +23,9 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 
 public class GameController{
@@ -31,6 +35,7 @@ public class GameController{
 	public static Battle battle;
 	private static Scene mainScene = MainMenuController.mainScene;
 	private int numLanes;
+	private WeaponFactory weaponFactory;
 	
 	@FXML
 	Label turns, phase, score, resource;
@@ -38,6 +43,8 @@ public class GameController{
 	GridPane gridPane;
 	@FXML
 	ImageView PiercingCannonShop;
+	@FXML
+	Label exception;
 	
 	private Cursor originalCursor = Cursor.DEFAULT;
 	
@@ -55,9 +62,10 @@ public class GameController{
 	}
 	
 	
-	public void initialize() {
+	public void initialize() throws IOException {
 		if(battle != null)
 		{
+			weaponFactory = new WeaponFactory();
 			gridPane.setGridLinesVisible(false);
 			gridPane.getStyleClass().add("mygridStyle");
 			numLanes = battle.getLanes().size();
@@ -85,6 +93,18 @@ public class GameController{
 					gridPane.add(rectangle, col, row);
 				}
 				Rectangle rectangle = new Rectangle(90, 230*3/numLanes, Color.BURLYWOOD);	
+				rectangle.setOnDragDropped(event -> {
+					Dragboard db = event.getDragboard();
+					boolean done = false;
+					if(db.hasString()) {
+						try {
+							weaponFactory.buyWeapon(battle.getResourcesGathered(),Integer.parseInt(db.getString()));
+						} catch (InsufficientResourcesException e) {
+							e.printStackTrace();
+						}
+					}
+						
+				});
 				gridPane.add(rectangle, 0, row);
 			}
 			
@@ -95,27 +115,27 @@ public class GameController{
 			resource.setText("Resources: " + battle.getResourcesGathered());
 		}
 		//this is for price and damage to display
-		Tooltip PiercingCannonTooltip = new Tooltip("Name: Piercing Cannon//nCost:idk"+"//n"+"  g");
+		Tooltip PiercingCannonTooltip = new Tooltip("Name: Piercing Cannon");
 		PiercingCannonTooltip.setShowDelay(Duration.millis(20));
 		Tooltip.install(PiercingCannonShop,PiercingCannonTooltip); 
 		
 		
 		PiercingCannonShop.setOnDragDetected(event -> {
+			
+			Dragboard db = PiercingCannonShop.startDragAndDrop(TransferMode.ANY);
+			ClipboardContent content = new ClipboardContent();
+			content.putString("1");
+			db.setContent(content);
 		    ImageView cursorImage = new ImageView(PiercingCannonShop.getImage());
-		    
 		    cursorImage.setFitHeight(32);
 		    cursorImage.setFitWidth(32);
-		    cursorImage.setOpacity(0.5); 
-		    
-		    Scene scene = PiercingCannonShop.getScene(); 
-
+		    cursorImage.setOpacity(0.2); 
+		    Scene scene = PiercingCannonShop.getScene();
 		    scene.setCursor(new ImageCursor(cursorImage.getImage()));
-		    PiercingCannonShop.requestFocus();
 		  });
 		PiercingCannonShop.setOnMouseReleased(event -> {
 			PiercingCannonShop.getScene().setCursor(Cursor.DEFAULT);
 		});
-
 	}
 	
 	public void killLane(int i)
@@ -135,12 +155,6 @@ public class GameController{
 	    }
 	    return null;
 	}
-	public void buy() {
-	getNodeFromGridPane(gridPane,1,1).setOnDragDropped(event2 -> {
-		Node focusOwner = mainScene.getFocusOwner();
-		if(focusOwner.equals(PiercingCannonShop))
-			System.out.println("fuck yeah");
-	});}
 }
 
 

@@ -32,9 +32,12 @@
     <fullyQualifiedTypeName name="javafx.scene.Cursor"/>
     <fullyQualifiedTypeName name="java.awt.Cursor"/>
     <fullyQualifiedTypeName name="com.sun.glass.ui.Cursor"/>
-    <fullyQualifiedTypeName name="javafx.scene.input.ClipboardContent"/>
-    <fullyQualifiedTypeName name="javafx.scene.input.Dragboard"/>
     <fullyQualifiedTypeName name="java.awt.TextField"/>
     <fullyQualifiedTypeName name="javafx.scene.control.Tooltip"/>
     <fullyQualifiedTypeName name="javafx.util.Duration"/>
+    <fullyQualifiedTypeName name="javafx.scene.input.Dragboard"/>
+    <fullyQualifiedTypeName name="javafx.scene.input.TransferMode"/>
+    <fullyQualifiedTypeName name="javafx.scene.input.ClipboardContent"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="game.engine.weapons.factory.WeaponFactory"/>
 </qualifiedTypeNameHistroy>
