@@ -61,5 +61,10 @@
             </ImageView>
          </children>
       </HBox>
+      <Label fx:id="exception" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="-4.0" layoutY="520.0" opacity="0.0" prefHeight="70.0" prefWidth="1920.0" text="Lane" textAlignment="CENTER" underline="true">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

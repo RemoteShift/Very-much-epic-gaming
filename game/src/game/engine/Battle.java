@@ -173,8 +173,6 @@ public class Battle {
 		FactoryResponse bruh = weaponFactory.buyWeapon(resourcesGathered, weaponCode);
 		lane.addWeapon(bruh.getWeapon());
 		setResourcesGathered(bruh.getRemainingResources());
-
-		performTurn();
 	}
 
 	void passTurn(){
@@ -227,7 +225,7 @@ public class Battle {
 			if (!lanes.peek().getLaneWall().isDefeated())
 				tempLanes.add(lanes.peek());
 			else
-				gameController.killLane(i);
+				gameController.killLane(lanes.peek());
 			lanes.poll();
 		}
 
