@@ -57,6 +57,8 @@ public class GameController{
 	ImageView WallTrapShop;
 	@FXML
 	Label exception;
+	@FXML
+	ImageView Temporary_Titan_Storage;
 	
 	public GameController()
 	{
