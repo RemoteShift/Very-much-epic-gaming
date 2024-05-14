@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
+import game.engine.lanes.Lane;
 import game.engine.titans.Titan;
 
 public class WallTrap extends Weapon {
@@ -15,7 +16,7 @@ public class WallTrap extends Weapon {
 	}
 
 	@Override
-	public int turnAttack(PriorityQueue<Titan> laneTitans) {
+	public int turnAttack(PriorityQueue<Titan> laneTitans, Lane lane) {
 		int resources = 0;
 		Titan[] tempTitans = new Titan[laneTitans.size()];
 		int size = laneTitans.size();
@@ -38,6 +39,8 @@ public class WallTrap extends Weapon {
 			for (int i = 0; i < tempTitans.length; i++) {
 				if (tempTitans[i] != null && tempTitans[i].getCurrentHealth() > 0)
 					laneTitans.add(tempTitans[i]);
+				else
+					NotifyController(tempTitans[i], lane);
 			}
 		}
 

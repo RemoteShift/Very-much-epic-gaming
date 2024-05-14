@@ -2,6 +2,7 @@ package game.engine.weapons;
 
 import java.util.PriorityQueue;
 
+import game.engine.lanes.Lane;
 import game.engine.titans.Titan;
 
 public class VolleySpreadCannon extends Weapon {
@@ -25,7 +26,7 @@ public class VolleySpreadCannon extends Weapon {
 	}
 
 	@Override
-	public int turnAttack(PriorityQueue<Titan> laneTitans) {
+	public int turnAttack(PriorityQueue<Titan> laneTitans, Lane lane) {
 		Titan[] tempTitans = new Titan[laneTitans.size()];
 		int resources = 0;
 		if (laneTitans.size() >= 0) {
@@ -38,6 +39,8 @@ public class VolleySpreadCannon extends Weapon {
 			for (int i = 0; i < tempTitans.length; i++) {
 				if (tempTitans[i].getCurrentHealth() > 0)
 					laneTitans.add(tempTitans[i]);
+				else
+					NotifyController(tempTitans[i], lane);
 			}
 		}
 		return resources;

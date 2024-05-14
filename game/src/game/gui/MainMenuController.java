@@ -118,7 +118,7 @@ public class MainMenuController{
 		
 		if(easy.isSelected())
 		{
-			battle = new Battle(0, 0, 500, 3, 250);
+			battle = new Battle(0, 0, 100, 3, 250);
 			GameController.battle = battle;
 			gameController.initialize();
 			stage.close();
@@ -126,7 +126,7 @@ public class MainMenuController{
 		}
 		else if(hard.isSelected())
 		{
-			battle = new Battle(0, 0, 500, 5, 125);
+			battle = new Battle(0, 0, 100, 5, 125);
 			GameController.battle = battle;
 			gameController.initialize();
 			stage.close();

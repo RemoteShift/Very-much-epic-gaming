@@ -1,6 +1,6 @@
 package game.engine.interfaces;
 
-public interface Attackee {
+public interface Attackee {	
 	default boolean isDefeated(){
 		if(getCurrentHealth()<=0)
 			return true;

@@ -202,7 +202,14 @@ public class Battle {
 				continue;
 
 			for (Titan titan : lane.getTitans())
-				titan.move();
+			{
+				if(titan.getDistance() > 0)
+				{
+					titan.move();
+					gameController.moveTitans(titan, lane);
+				}	
+			}
+				
 		}
 	}
 
@@ -260,7 +267,7 @@ public class Battle {
 		}
 	}
 
-	private void performTurn(){
+	public void performTurn(){
 		moveTitans();
 		performWeaponsAttacks();
 		performTitansAttacks();

@@ -5,18 +5,21 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
 
+import game.engine.lanes.Lane;
 import game.engine.titans.Titan;
+import game.gui.GameController;
 
 public class PiercingCannon extends Weapon {
 	public static final int WEAPON_CODE = 1;
 	private Queue<Titan> titansToAttack = new LinkedList<Titan>();
+
 
 	public PiercingCannon(int baseDamage) {
 		super(baseDamage);
 	}
 
 	@Override
-	public int turnAttack(PriorityQueue<Titan> laneTitans) {
+	public int turnAttack(PriorityQueue<Titan> laneTitans, Lane lane) {
 		int resorces = 0;
 		Stack<Titan> tempTitans = new Stack<>();
 
@@ -38,7 +41,10 @@ public class PiercingCannon extends Weapon {
 				tempTitans.add(titansToAttack.peek());
 				resorces += super.attack(titansToAttack.poll());
 				if (tempTitans.peek().isDefeated())
+				{
+					NotifyController(tempTitans.peek(), lane);
 					tempTitans.pop();
+				}
 			}
 
 			for (Titan titan : tempTitans) {

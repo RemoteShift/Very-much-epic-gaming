@@ -11,16 +11,21 @@ import game.engine.Battle;
 import game.engine.exceptions.InsufficientResourcesException;
 import game.engine.exceptions.InvalidLaneException;
 import game.engine.lanes.Lane;
+import game.engine.titans.AbnormalTitan;
+import game.engine.titans.ArmoredTitan;
 import game.engine.titans.ColossalTitan;
+import game.engine.titans.PureTitan;
 import game.engine.titans.Titan;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
@@ -52,25 +57,22 @@ public class GameController{
 	private HashMap<FlowPane, Integer> lanesHashMap = new HashMap<FlowPane, Integer>();
 	private Lane[] lanes;
 	private boolean changeHeight = false;
-	HashMap<Titan, ImageView> TitanImages = new HashMap<>();
-	double Initial_X = 1850-1660;
+	private boolean changeHeight2 = false;
+	public HashMap<Titan, ImageView> TitanImages = new HashMap<>();
+	private double initHeight;
+	//double Initial_X = 1850-1660;
+	
+	private Image pureTitan = new Image(getClass().getResourceAsStream("PureTitan.png"));
+	private Image abnormalTitan = new Image(getClass().getResourceAsStream("AbnormalTitan.png"));
+	private Image armoredTitan = new Image(getClass().getResourceAsStream("ArmoredTitan.png"));
+	private Image colossalTitan = new Image(getClass().getResourceAsStream("CollosalTitan.png"));
 	
 	@FXML
-	Label turns, phase, score, resource;
+	Label turns, phase, score, resource, exception;
 	@FXML
-	GridPane gridPane;
+	public GridPane gridPane;
 	@FXML
-	ImageView PiercingCannonShop;
-	@FXML
-	ImageView SniperCannonShop;
-	@FXML
-	ImageView VolleySpreadCannonShop;
-	@FXML
-	ImageView WallTrapShop;
-	@FXML
-	Label exception;
-	@FXML
-	ImageView Temporary_Titan_Storage;
+	ImageView PiercingCannonShop, SniperCannonShop, VolleySpreadCannonShop, WallTrapShop;
 	
 	
 	public GameController()
@@ -107,13 +109,14 @@ public class GameController{
 			gridPane.setGridLinesVisible(false);
 			gridPane.getStyleClass().add("mygridStyle");
 			numLanes = battle.getLanes().size();
+			initHeight = 230*3/numLanes;
 			lanes = new Lane[numLanes];
 			
 			gridPane.getColumnConstraints().clear();
 			
-			for (int i = 0; i < 22; i++) {
+			for (int i = 0; i < 23; i++) {
 	            ColumnConstraints colConst = new ColumnConstraints();
-	            colConst.setPercentWidth(100.0 / 22);
+	            colConst.setPercentWidth(100.0 / 23);
 	            gridPane.getColumnConstraints().add(colConst);
 	        }
 			
@@ -124,14 +127,13 @@ public class GameController{
 	            lanes[i] = (Lane)battle.getLanes().toArray()[i];
 	        }
 			
-			
 			for(int row = 0; row < numLanes; row++)
 			{	
 				
 				FlowPane flowPane = new FlowPane();
 				flowPane.setBorder(Border.stroke(Color.WHITE));
 				
-				for(int col = 21; col >= 1; col--)
+				for(int col = 22; col >= 1; col--)
 				{
 					if(col == 1)
 					{
@@ -141,11 +143,11 @@ public class GameController{
 					}
 					else
 					{
-						Rectangle rectangle = new Rectangle(83, 230*3/numLanes, Color.DIMGRAY);
+						Rectangle rectangle = new Rectangle(80, 230*3/numLanes, Color.DIMGRAY);
 						gridPane.add(rectangle, col, row);
 						FlowPane flowPaner = new FlowPane();
 						flowPaner.setBorder(Border.stroke(Color.WHITE));
-						flowPaner.setMaxWidth(83);
+						flowPaner.setMaxWidth(80);
 						flowPaner.setMaxHeight(230*3/numLanes);
 						gridPane.add(flowPaner, col, row);
 					}
@@ -157,7 +159,7 @@ public class GameController{
 				
 				flowPane.setMaxWidth(75);
 				flowPane.setMaxHeight(230*3/numLanes);
-				double initHeight = 230*3/numLanes;
+				
 				
 				lanesHashMap.put(flowPane, row);
 				flowPane.setOnDragOver(event -> {
@@ -181,6 +183,8 @@ public class GameController{
 						battle.purchaseWeapon(Integer.parseInt(db.getString()), 
 								lanes[lanesHashMap.get(flowPane)]);
 						ImageView imageView = new ImageView(db.getImage());
+						//imageView.setPreserveRatio(true);
+						//imageView.setFitWidth(initHeight/flowPane.getChildren().size());
 						flowPane.getChildren().add(imageView);
 						
 						if(flowPane.getHeight() > initHeight)
@@ -314,19 +318,23 @@ public class GameController{
 	
 	public void killLane(Lane lane)
 	{
-		int i;
-		for(i = 0; i < lanes.length; i++)
+		for(int j = 0; j < 23; j++)
 		{
-			if(lanes[i] == lane)
-				break;
-		}
-		for(int j = 0; j < 22; j++)
-		{
-			for(Node node : getNodesFromGridPane(gridPane, j, i))
+			for(Node node : getNodesFromGridPane(gridPane, j, getLaneIndex(lane)))
 			{
 				node.setOpacity(0.2);
 			}
 		}
+	}
+	
+	public int getLaneIndex(Lane lane)
+	{
+		for(int i = 0; i < lanes.length; i++)
+		{
+			if(lanes[i] == lane)
+				return i;
+		}
+		return 0;
 	}
 	
 	
@@ -344,27 +352,105 @@ public class GameController{
 			return nodes;
 	}
 	
-//	public void addTitan(Titan titan) {
-//		
-//	}
-//	
-//	public void endTurn() {
-//		battle.
-//	}
-//	public void TitanToImageMapping() {
-//		for(Titan titan : approachingTitans) {
-//			TitanImages.put(titan, new ImageView());
-//		}
-//	}
+	public void removeTitan(Titan titan, Lane lane)
+	{
+		Stack<Node> nodes = getNodesFromGridPane(gridPane, 
+				titan.getDistance()/5 + 2, getLaneIndex(lane));
+		
+		for(Node node : nodes)
+		{
+			if(node instanceof FlowPane)
+			{
+				((FlowPane)node).getChildren().remove(TitanImages.get(titan));
+			}
+		}
+	}
+	
 	public void AddTitanToLane(Lane lane, Titan titan) {
-		battle.getApproachingTitans();
-		TitanImages.put(titan, new ImageView());
-		if(titan instanceof ColossalTitan) {
-			//insert logic
+		ImageView imageView = null;
+		
+		if(titan instanceof PureTitan)
+			imageView = new ImageView(pureTitan);
+		else if(titan instanceof AbnormalTitan)
+			imageView = new ImageView(abnormalTitan);
+		else if(titan instanceof ArmoredTitan)
+			imageView = new ImageView(armoredTitan);
+		else if(titan instanceof ColossalTitan)
+			imageView = new ImageView(colossalTitan);
+		
+		imageView.setPreserveRatio(true);
+		imageView.setFitHeight(60*5/numLanes);
+		
+		TitanImages.put(titan, imageView);
+		if(!(titan instanceof ColossalTitan)) {
+			Stack<Node> nodes = getNodesFromGridPane(gridPane, 22, getLaneIndex(lane));
+			for(Node node : nodes)
+			{
+				if(node instanceof FlowPane)
+				{
+					FlowPane flowPane = (FlowPane)node;
+					flowPane.getChildren().add(imageView);
+					
+					if(flowPane.getHeight() > initHeight)
+					{
+						changeHeight2 = true;
+					}
+					
+					if(changeHeight2)
+					{
+						ObservableList<Node> children = flowPane.getChildren();
+						
+						for(Node noder : children)
+						{
+							ImageView imageViewer = (ImageView)noder;
+							imageViewer.setPreserveRatio(true);
+							imageViewer.setFitHeight(initHeight/children.size());
+						}
+					}
+				}
+			}
 		}
 		else {
 			
 		}
+	}
+	
+	public void moveTitans(Titan titan, Lane lane)
+	{
+		ImageView imageView = TitanImages.get(titan);
+		
+		int distance = titan.getDistance()/5;
+		
+		gridPane.getChildren().remove(imageView);
+		
+		Stack<Node> nodes = getNodesFromGridPane(gridPane, distance + 2, getLaneIndex(lane));
+		
+		for(Node node : nodes)
+		{
+			if(node instanceof FlowPane)
+			{
+				((FlowPane)node).getChildren().add(imageView);
+				break;
+			}
+		}
+	}
+	
+	public void performTurn(ActionEvent e)
+	{
+		battle.performTurn();
+		
+		//for wall stats
+		for(int i = 0; i < numLanes; i++)
+		{
+			((Label)(getNodesFromGridPane(gridPane, 0, i).get(0))).setText("    Hp: " + 
+						lanes[i].getLaneWall().getCurrentHealth() + 
+						"\nDanger Level: " + lanes[i].getDangerLevel());
+		}
+		
+		turns.setText("Turn: " + battle.getNumberOfTurns());
+		phase.setText(battle.getBattlePhase().toString());
+		score.setText("Score: " + battle.getScore());
+		resource.setText("Resources: " + battle.getResourcesGathered());
 	}
 	//1660
 }

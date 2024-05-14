@@ -5,6 +5,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
 
+import game.engine.lanes.Lane;
 import game.engine.titans.Titan;
 
 public class SniperCannon extends Weapon {
@@ -16,7 +17,7 @@ public class SniperCannon extends Weapon {
 	}
 
 	@Override
-	public int turnAttack(PriorityQueue<Titan> laneTitans) {
+	public int turnAttack(PriorityQueue<Titan> laneTitans, Lane lane) {
 		Stack<Titan> tempTitan = new Stack<>();
 		int resources = 0;
 
@@ -42,7 +43,11 @@ public class SniperCannon extends Weapon {
 				resources += super.attack(firstTitan.poll());
 
 				if (tempTitan.peek().isDefeated())
+				{
+					NotifyController(tempTitan.peek(), lane);
 					tempTitan.pop();
+				}
+					
 			}
 
 			for (Titan titan : tempTitan) {
