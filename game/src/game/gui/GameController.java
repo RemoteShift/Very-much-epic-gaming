@@ -11,8 +11,10 @@ import game.engine.exceptions.InvalidLaneException;
 import game.engine.lanes.Lane;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -20,13 +22,16 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
@@ -42,6 +47,7 @@ public class GameController{
 	private static boolean done = false;
 	private HashMap<FlowPane, Integer> lanesHashMap = new HashMap<FlowPane, Integer>();
 	private Lane[] lanes;
+	private boolean changeHeight = false;
 	
 	@FXML
 	Label turns, phase, score, resource;
@@ -98,9 +104,9 @@ public class GameController{
 			
 			gridPane.getColumnConstraints().clear();
 			
-			for (int i = 0; i < 21; i++) {
+			for (int i = 0; i < 23; i++) {
 	            ColumnConstraints colConst = new ColumnConstraints();
-	            colConst.setPercentWidth(100.0 / 21);
+	            colConst.setPercentWidth(100.0 / 23);
 	            gridPane.getColumnConstraints().add(colConst);
 	        }
 			
@@ -114,15 +120,35 @@ public class GameController{
 			
 			for(int row = 0; row < numLanes; row++)
 			{	
-				for(int col = 1; col < 21; col++)
-				{
-					Rectangle rectangle = new Rectangle(85, 230*3/numLanes, Color.DIMGRAY);
-					gridPane.add(rectangle, col, row);
-				}
-				Rectangle rectangle = new Rectangle(85, 230*3/numLanes, Color.BURLYWOOD);
+				
 				FlowPane flowPane = new FlowPane();
-				flowPane.setMaxWidth(85);
+				flowPane.setBorder(Border.stroke(Color.WHITE));
+				
+				for(int col = 22; col >= 1; col--)
+				{
+					if(col == 1)
+					{
+						Rectangle rectangle = new Rectangle(75, 230*3/numLanes, Color.BURLYWOOD);
+						gridPane.add(rectangle, 1, row);
+						gridPane.add(flowPane, 1, row);
+					}
+					else
+					{
+						Rectangle rectangle = new Rectangle(75, 230*3/numLanes, Color.DIMGRAY);
+						gridPane.add(rectangle, col, row);
+						FlowPane flowPaner = new FlowPane();
+						flowPaner.setBorder(Border.stroke(Color.WHITE));
+						flowPaner.setMaxWidth(75);
+						flowPaner.setMaxHeight(230*3/numLanes);
+						gridPane.add(flowPaner, col, row);
+					}
+					
+				}
+				
+				flowPane.setMaxWidth(75);
 				flowPane.setMaxHeight(230*3/numLanes);
+				double initHeight = 230*3/numLanes;
+				
 				lanesHashMap.put(flowPane, row);
 				flowPane.setOnDragOver(event -> {
 					event.acceptTransferModes(TransferMode.ANY);
@@ -136,6 +162,7 @@ public class GameController{
 				flowPane.setOnDragExited(event ->
 				{
 					flowPane.getChildren().remove(flowPane.getChildren().size()-1);
+					changeHeight = false;
 					done = false;
 				});
 				flowPane.setOnDragDropped(event -> {
@@ -145,6 +172,24 @@ public class GameController{
 								lanes[lanesHashMap.get(flowPane)]);
 						ImageView imageView = new ImageView(db.getImage());
 						flowPane.getChildren().add(imageView);
+						
+						if(flowPane.getHeight() > initHeight)
+						{
+							changeHeight = true;
+						}
+						
+						if(changeHeight)
+						{
+							ObservableList<Node> children = flowPane.getChildren();
+							
+							for(Node node : children)
+							{
+								ImageView imageViewer = (ImageView)node;
+								imageViewer.setPreserveRatio(true);
+								imageViewer.setFitHeight(initHeight/children.size());
+							}
+						}
+						
 						resource.setText("Resources: " + battle.getResourcesGathered());
 					} catch (InsufficientResourcesException e) {
 						e = new InsufficientResourcesException(battle.getResourcesGathered());
@@ -161,13 +206,25 @@ public class GameController{
 					event.setDropCompleted(true);
 				});
 				
+				//set every time turn is performed
+				Label wallHealth = new Label("    Hp: " + lanes[row].getLaneWall().getCurrentHealth() + 
+						"\nDanger Level: " + lanes[row].getDangerLevel());
+                wallHealth.setFont(new Font("Arial", (numLanes > 3)? 17 : 25));
+                wallHealth.setMinWidth(Region.USE_PREF_SIZE);
+                wallHealth.setMinHeight(Region.USE_PREF_SIZE);
+                wallHealth.setMaxHeight((numLanes > 3)? 100 : 180);
+                wallHealth.setAlignment(Pos.TOP_CENTER);
+                wallHealth.setRotate(-90.0);
+                wallHealth.setDisable(true);
+				wallHealth.setOpacity(1);
 				
-				gridPane.add(rectangle, 0, row);
-				gridPane.add(flowPane, 0, row);
 				
-				battle.getLanes().remove(lanes[0]);
-				killLane(lanes[0]);
+				gridPane.add(wallHealth, 0, row);
+				
+				/*battle.getLanes().remove(lanes[0]);
+				killLane(lanes[0]);*/
 			}
+			
 			
 			turns.setText("Turn: " + battle.getNumberOfTurns());
 			phase.setText(battle.getBattlePhase().toString());
@@ -254,7 +311,7 @@ public class GameController{
 			if(lanes[i] == lane)
 				break;
 		}
-		for(int j = 0; j < 21; j++)
+		for(int j = 0; j < 23; j++)
 		{
 			for(Node node : getNodesFromGridPane(gridPane, j, i))
 			{
