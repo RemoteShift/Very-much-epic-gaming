@@ -191,6 +191,7 @@ public class Battle {
 			Titan Titan_To_Be_Added = approachingTitans.remove(0);
 			Lane tempLane = getLanes().peek();
 			tempLane.addTitan(Titan_To_Be_Added);
+			gameController.AddTitanToLane(tempLane, Titan_To_Be_Added);
 			tempLane.updateLaneDangerLevel();
 		}
 	}

@@ -2,13 +2,17 @@ package game.gui;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 import game.engine.Battle;
 import game.engine.exceptions.InsufficientResourcesException;
 import game.engine.exceptions.InvalidLaneException;
 import game.engine.lanes.Lane;
+import game.engine.titans.ColossalTitan;
+import game.engine.titans.Titan;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.collections.ObservableList;
@@ -19,6 +23,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -40,7 +45,6 @@ import javafx.scene.input.TransferMode;
 public class GameController{
 
 	public static GameController instance;
-	
 	public static Battle battle;
 	private static Scene mainScene = MainMenuController.mainScene;
 	private int numLanes;
@@ -48,6 +52,8 @@ public class GameController{
 	private HashMap<FlowPane, Integer> lanesHashMap = new HashMap<FlowPane, Integer>();
 	private Lane[] lanes;
 	private boolean changeHeight = false;
+	HashMap<Titan, ImageView> TitanImages = new HashMap<>();
+	double Initial_X = 1850-1660;
 	
 	@FXML
 	Label turns, phase, score, resource;
@@ -65,6 +71,7 @@ public class GameController{
 	Label exception;
 	@FXML
 	ImageView Temporary_Titan_Storage;
+	
 	
 	public GameController()
 	{
@@ -104,9 +111,9 @@ public class GameController{
 			
 			gridPane.getColumnConstraints().clear();
 			
-			for (int i = 0; i < 23; i++) {
+			for (int i = 0; i < 22; i++) {
 	            ColumnConstraints colConst = new ColumnConstraints();
-	            colConst.setPercentWidth(100.0 / 23);
+	            colConst.setPercentWidth(100.0 / 22);
 	            gridPane.getColumnConstraints().add(colConst);
 	        }
 			
@@ -124,7 +131,7 @@ public class GameController{
 				FlowPane flowPane = new FlowPane();
 				flowPane.setBorder(Border.stroke(Color.WHITE));
 				
-				for(int col = 22; col >= 1; col--)
+				for(int col = 21; col >= 1; col--)
 				{
 					if(col == 1)
 					{
@@ -134,14 +141,17 @@ public class GameController{
 					}
 					else
 					{
-						Rectangle rectangle = new Rectangle(75, 230*3/numLanes, Color.DIMGRAY);
+						Rectangle rectangle = new Rectangle(83, 230*3/numLanes, Color.DIMGRAY);
 						gridPane.add(rectangle, col, row);
 						FlowPane flowPaner = new FlowPane();
 						flowPaner.setBorder(Border.stroke(Color.WHITE));
-						flowPaner.setMaxWidth(75);
+						flowPaner.setMaxWidth(83);
 						flowPaner.setMaxHeight(230*3/numLanes);
 						gridPane.add(flowPaner, col, row);
 					}
+					//pixels= 83*20 = 1660
+					//whole thing from very left = 1850
+					
 					
 				}
 				
@@ -224,8 +234,7 @@ public class GameController{
 				/*battle.getLanes().remove(lanes[0]);
 				killLane(lanes[0]);*/
 			}
-			
-			
+
 			turns.setText("Turn: " + battle.getNumberOfTurns());
 			phase.setText(battle.getBattlePhase().toString());
 			score.setText("Score: " + battle.getScore());
@@ -311,7 +320,7 @@ public class GameController{
 			if(lanes[i] == lane)
 				break;
 		}
-		for(int j = 0; j < 23; j++)
+		for(int j = 0; j < 22; j++)
 		{
 			for(Node node : getNodesFromGridPane(gridPane, j, i))
 			{
@@ -319,6 +328,7 @@ public class GameController{
 			}
 		}
 	}
+	
 	
 	private Stack<Node> getNodesFromGridPane(GridPane gridPane, int col, int row) {
 	    Stack<Node> nodes = new Stack<Node>();
@@ -333,7 +343,37 @@ public class GameController{
 		else
 			return nodes;
 	}
+	
+//	public void addTitan(Titan titan) {
+//		
+//	}
+//	
+//	public void endTurn() {
+//		battle.
+//	}
+//	public void TitanToImageMapping() {
+//		for(Titan titan : approachingTitans) {
+//			TitanImages.put(titan, new ImageView());
+//		}
+//	}
+	public void AddTitanToLane(Lane lane, Titan titan) {
+		battle.getApproachingTitans();
+		TitanImages.put(titan, new ImageView());
+		if(titan instanceof ColossalTitan) {
+			//insert logic
+		}
+		else {
+			
+		}
+	}
+	//1660
 }
+
+//remove from the approaching titans
+//using hashmap, get its image
+//insert that image into the grid at its correct location
+//we do this once for each lane (a loop)
+//rinse and repeat i guess
 
 
 
