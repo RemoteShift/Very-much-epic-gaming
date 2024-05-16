@@ -173,26 +173,28 @@ public class Battle {
 		FactoryResponse bruh = weaponFactory.buyWeapon(resourcesGathered, weaponCode);
 		lane.addWeapon(bruh.getWeapon());
 		setResourcesGathered(bruh.getRemainingResources());
+		
+		gameController.performTurn();
 	}
 
-	void passTurn(){
-		moveTitans();
-		performWeaponsAttacks();
-		performTitansAttacks();
-		addTurnTitansToLane();
-		updateLanesDangerLevels();
-		finalizeTurns();
+	public void passTurn(){
+		performTurn();
 	}
 
 	private void addTurnTitansToLane(){
+		Lane tempLane = getLanes().peek();
 		for (int i = 0; i < numberOfTitansPerTurn; i++) {
 			if (this.approachingTitans.isEmpty())
 				refillApproachingTitans();
 			Titan Titan_To_Be_Added = approachingTitans.remove(0);
-			Lane tempLane = getLanes().peek();
 			tempLane.addTitan(Titan_To_Be_Added);
 			gameController.AddTitanToLane(tempLane, Titan_To_Be_Added);
 			tempLane.updateLaneDangerLevel();
+		}
+		
+		if(numberOfTurns >= 35)
+		{
+			gameController.checkLanes(tempLane);
 		}
 	}
 
@@ -267,7 +269,7 @@ public class Battle {
 		}
 	}
 
-	public void performTurn(){
+	private void performTurn(){
 		moveTitans();
 		performWeaponsAttacks();
 		performTitansAttacks();

@@ -22,12 +22,12 @@
             <Font size="36.0" />
          </font>
       </Label>
-      <Label fx:id="score" layoutX="58.0" layoutY="42.0" prefHeight="73.0" prefWidth="271.0" text="Score: ">
+      <Label fx:id="score" layoutX="58.0" layoutY="42.0" prefHeight="73.0" prefWidth="1861.0" text="Score: ">
          <font>
             <Font size="50.0" />
          </font>
       </Label>
-      <Label fx:id="resource" layoutX="58.0" layoutY="137.0" prefHeight="53.0" prefWidth="936.0" text="Resources: ">
+      <Label fx:id="resource" layoutX="58.0" layoutY="137.0" prefHeight="53.0" prefWidth="1858.0" text="Resources: ">
          <font>
             <Font size="36.0" />
          </font>
@@ -87,7 +87,7 @@
             <Font size="48.0" />
          </font>
       </Label>
-      <Button layoutX="1558.0" layoutY="936.0" mnemonicParsing="false" onAction="#performTurn" text="End Turn">
+      <Button layoutX="1558.0" layoutY="936.0" mnemonicParsing="false" onAction="#performTurn" text="Pass Turn">
          <font>
             <Font size="41.0" />
          </font>

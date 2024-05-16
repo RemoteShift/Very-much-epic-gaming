@@ -7,16 +7,26 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.gui.MainMenuController">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="660.0" layoutY="386.0" prefHeight="27.0" prefWidth="600.0" text="How to play?">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="69.0" prefHeight="53.0" prefWidth="1920.0" text="Game Instructions">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <Label alignment="TOP_CENTER" layoutX="660.0" layoutY="465.0" prefHeight="229.0" prefWidth="600.0" text="Blah Blah Blah Nigga">
+      <Button layoutX="937.0" layoutY="944.0" mnemonicParsing="false" onAction="#BackToMenu" text="Back" />
+      <Label layoutX="816.0" layoutY="166.0" text="There are 2 Game modes Available:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Button layoutX="933.0" layoutY="669.0" mnemonicParsing="false" onAction="#BackToMenu" text="Back" />
+      <Label contentDisplay="CENTER" layoutX="600.0" layoutY="245.0" prefHeight="30.0" prefWidth="39.0" text="Easy">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="1320.0" layoutY="245.0" prefHeight="30.0" prefWidth="48.0" text="Hard">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -2,9 +2,7 @@ package game.gui;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Stack;
 
 import game.engine.Battle;
@@ -25,7 +23,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
@@ -56,10 +54,13 @@ public class GameController{
 	private static boolean done = false;
 	private HashMap<FlowPane, Integer> lanesHashMap = new HashMap<FlowPane, Integer>();
 	private Lane[] lanes;
-	private boolean changeHeight = false;
-	private boolean changeHeight2 = false;
-	public HashMap<Titan, ImageView> TitanImages = new HashMap<>();
+	public HashMap<Titan, Label> TitanImages = new HashMap<>();
 	private double initHeight;
+	private double initWidth;
+	private double[] currHeight;
+	private double[] currWidth;
+	private double[][] currHeight2;
+	private int numGrids;
 	//double Initial_X = 1850-1660;
 	
 	private Image pureTitan = new Image(getClass().getResourceAsStream("PureTitan.png"));
@@ -92,6 +93,8 @@ public class GameController{
 	public void initialize() throws IOException {
 		if(battle != null)
 		{
+			numGrids = (int) (Math.nextUp(10*battle.getTitanSpawnDistance()/50) + 3);
+			
 			PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
 			FadeTransition fade = new FadeTransition(Duration.seconds(1.5), exception);
 			fade.setFromValue(1.0);
@@ -110,13 +113,17 @@ public class GameController{
 			gridPane.getStyleClass().add("mygridStyle");
 			numLanes = battle.getLanes().size();
 			initHeight = 230*3/numLanes;
+			initWidth = 75*23/numGrids;
 			lanes = new Lane[numLanes];
+			currHeight = new double[numLanes];
+			currWidth = new double[numLanes];
+			currHeight2 = new double[numLanes][numGrids - 1];
 			
 			gridPane.getColumnConstraints().clear();
 			
-			for (int i = 0; i < 23; i++) {
+			for (int i = 0; i < numGrids; i++) {
 	            ColumnConstraints colConst = new ColumnConstraints();
-	            colConst.setPercentWidth(100.0 / 23);
+	            colConst.setPercentWidth(100.0 / numGrids);
 	            gridPane.getColumnConstraints().add(colConst);
 	        }
 			
@@ -133,22 +140,22 @@ public class GameController{
 				FlowPane flowPane = new FlowPane();
 				flowPane.setBorder(Border.stroke(Color.WHITE));
 				
-				for(int col = 22; col >= 1; col--)
+				for(int col = numGrids - 1; col >= 1; col--)
 				{
 					if(col == 1)
 					{
-						Rectangle rectangle = new Rectangle(75, 230*3/numLanes, Color.BURLYWOOD);
+						Rectangle rectangle = new Rectangle(75*23/numGrids, 230*3/numLanes, Color.BURLYWOOD);
 						gridPane.add(rectangle, 1, row);
 						gridPane.add(flowPane, 1, row);
 					}
 					else
 					{
-						Rectangle rectangle = new Rectangle(80, 230*3/numLanes, Color.DIMGRAY);
+						Rectangle rectangle = new Rectangle(80*23/numGrids, 230*3/numLanes, Color.DIMGRAY);
 						gridPane.add(rectangle, col, row);
 						FlowPane flowPaner = new FlowPane();
 						flowPaner.setBorder(Border.stroke(Color.WHITE));
-						flowPaner.setMaxWidth(80);
-						flowPaner.setMaxHeight(230*3/numLanes);
+						flowPaner.setMaxWidth(80*23/numGrids);
+						flowPaner.setMaxHeight(initHeight);
 						gridPane.add(flowPaner, col, row);
 					}
 					//pixels= 83*20 = 1660
@@ -157,8 +164,8 @@ public class GameController{
 					
 				}
 				
-				flowPane.setMaxWidth(75);
-				flowPane.setMaxHeight(230*3/numLanes);
+				flowPane.setMaxWidth(initWidth);
+				flowPane.setMaxHeight(initHeight);
 				
 				
 				lanesHashMap.put(flowPane, row);
@@ -167,14 +174,19 @@ public class GameController{
 					if(!done)
 					{
 						Dragboard db = event.getDragboard();
-						flowPane.getChildren().add(new ImageView(db.getImage()));
+						ImageView imageView = new ImageView(db.getImage());
+						imageView.setPreserveRatio(true);
+						if(currHeight[lanesHashMap.get(flowPane)] != 0)
+							imageView.setFitHeight(currHeight[lanesHashMap.get(flowPane)]);
+						if(currWidth[lanesHashMap.get(flowPane)] != 0)
+							imageView.setFitHeight(currWidth[lanesHashMap.get(flowPane)]);
+						flowPane.getChildren().add(imageView);
 						done = true;
 					}
 				});
 				flowPane.setOnDragExited(event ->
 				{
 					flowPane.getChildren().remove(flowPane.getChildren().size()-1);
-					changeHeight = false;
 					done = false;
 				});
 				flowPane.setOnDragDropped(event -> {
@@ -183,24 +195,31 @@ public class GameController{
 						battle.purchaseWeapon(Integer.parseInt(db.getString()), 
 								lanes[lanesHashMap.get(flowPane)]);
 						ImageView imageView = new ImageView(db.getImage());
-						//imageView.setPreserveRatio(true);
-						//imageView.setFitWidth(initHeight/flowPane.getChildren().size());
+						imageView.setPreserveRatio(true);
+						
 						flowPane.getChildren().add(imageView);
 						
-						if(flowPane.getHeight() > initHeight)
-						{
-							changeHeight = true;
-						}
-						
-						if(changeHeight)
+						if(flowPane.getWidth() > initWidth)
 						{
 							ObservableList<Node> children = flowPane.getChildren();
 							
 							for(Node node : children)
 							{
 								ImageView imageViewer = (ImageView)node;
-								imageViewer.setPreserveRatio(true);
-								imageViewer.setFitHeight(initHeight/children.size());
+								currWidth[lanesHashMap.get(flowPane)] = (initWidth/children.size())/1.7;
+								imageViewer.setFitHeight(currWidth[lanesHashMap.get(flowPane)]);
+							}
+						}
+						
+						if(flowPane.getHeight() > initHeight)
+						{
+							ObservableList<Node> children = flowPane.getChildren();
+							
+							for(Node node : children)
+							{
+								ImageView imageViewer = (ImageView)node;
+								currHeight[lanesHashMap.get(flowPane)] = initHeight/children.size();
+								imageViewer.setFitHeight(currHeight[lanesHashMap.get(flowPane)]);
 							}
 						}
 						
@@ -257,6 +276,8 @@ public class GameController{
 		Tooltip.install(SniperCannonShop,SniperCannonTooltip);
 		Tooltip.install(VolleySpreadCannonShop,VolleySpreadCannonTooltip);
 		Tooltip.install(WallTrapShop,WallTrapTooltip);
+		
+		
 		
 		
 		PiercingCannonShop.setOnDragDetected(event -> {
@@ -318,7 +339,7 @@ public class GameController{
 	
 	public void killLane(Lane lane)
 	{
-		for(int j = 0; j < 23; j++)
+		for(int j = 0; j < numGrids; j++)
 		{
 			for(Node node : getNodesFromGridPane(gridPane, j, getLaneIndex(lane)))
 			{
@@ -369,59 +390,74 @@ public class GameController{
 	public void AddTitanToLane(Lane lane, Titan titan) {
 		ImageView imageView = null;
 		
+		String name;
 		if(titan instanceof PureTitan)
-			imageView = new ImageView(pureTitan);
+			name = "Pure Titan";
 		else if(titan instanceof AbnormalTitan)
-			imageView = new ImageView(abnormalTitan);
+			name = "Abnormal Titan";
 		else if(titan instanceof ArmoredTitan)
-			imageView = new ImageView(armoredTitan);
-		else if(titan instanceof ColossalTitan)
-			imageView = new ImageView(colossalTitan);
+			name = "Armored Titan";
+		else
+			name = "Colossal Titan";
 		
-		imageView.setPreserveRatio(true);
-		imageView.setFitHeight(60*5/numLanes);
 		
-		TitanImages.put(titan, imageView);
-		if(!(titan instanceof ColossalTitan)) {
-			Stack<Node> nodes = getNodesFromGridPane(gridPane, 22, getLaneIndex(lane));
-			for(Node node : nodes)
-			{
-				if(node instanceof FlowPane)
-				{
-					FlowPane flowPane = (FlowPane)node;
-					flowPane.getChildren().add(imageView);
-					
-					if(flowPane.getHeight() > initHeight)
-					{
-						changeHeight2 = true;
-					}
-					
-					if(changeHeight2)
-					{
-						ObservableList<Node> children = flowPane.getChildren();
-						
-						for(Node noder : children)
-						{
-							ImageView imageViewer = (ImageView)noder;
-							imageViewer.setPreserveRatio(true);
-							imageViewer.setFitHeight(initHeight/children.size());
-						}
-					}
-				}
-			}
+		Tooltip TitanToolTip = new Tooltip("Name: " + name + " \n Hp: " + titan.getCurrentHealth() + 
+				" \n Height: " + titan.getHeightInMeters() + " \n Distance from wall: " + 
+				titan.getDistance() + " \n Speed: " + titan.getSpeed());
+		TitanToolTip.setShowDelay(Duration.ZERO);
+		
+		if(titan instanceof PureTitan)
+		{
+			imageView = new ImageView(pureTitan);
+			imageView.setPreserveRatio(true);
+			imageView.setFitHeight(((75*23/numGrids)*5/numLanes)/1.3);
 		}
-		else {
 			
+		else if(titan instanceof AbnormalTitan)
+		{
+			imageView = new ImageView(abnormalTitan);
+			imageView.setPreserveRatio(true);
+			imageView.setFitHeight(((75*23/numGrids)*5/numLanes)/1.4);
+		}
+			
+		else if(titan instanceof ArmoredTitan)
+		{
+			imageView = new ImageView(armoredTitan);
+			imageView.setPreserveRatio(true);
+			imageView.setFitHeight(((75*23/numGrids)*5/numLanes)/1.5);
+		}
+			
+		else if(titan instanceof ColossalTitan)
+		{
+			imageView = new ImageView(colossalTitan);
+			imageView.setPreserveRatio(true);
+			imageView.setFitHeight(((75*23/numGrids)*5/numLanes));
+		}
+		
+		Label label = new Label();
+		label.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+		label.setGraphic(imageView);
+		label.setTooltip(TitanToolTip);
+		
+		TitanImages.put(titan, label);
+		Stack<Node> nodes = getNodesFromGridPane(gridPane, numGrids - 1, getLaneIndex(lane));
+		for(Node node : nodes)
+		{
+			if(node instanceof FlowPane)
+			{
+				FlowPane flowPane = (FlowPane)node;
+				flowPane.getChildren().add(label);
+			}
 		}
 	}
 	
 	public void moveTitans(Titan titan, Lane lane)
 	{
-		ImageView imageView = TitanImages.get(titan);
+		Label label = TitanImages.get(titan);
 		
 		int distance = titan.getDistance()/5;
 		
-		gridPane.getChildren().remove(imageView);
+		gridPane.getChildren().remove(label);
 		
 		Stack<Node> nodes = getNodesFromGridPane(gridPane, distance + 2, getLaneIndex(lane));
 		
@@ -429,15 +465,81 @@ public class GameController{
 		{
 			if(node instanceof FlowPane)
 			{
-				((FlowPane)node).getChildren().add(imageView);
+				FlowPane flowPane = (FlowPane)node;
+				if(currHeight2[getLaneIndex(lane)][distance + 2] != 0)
+					((ImageView)label.getGraphic()).setFitHeight(currHeight2[getLaneIndex(lane)][distance + 2]);
+				flowPane.getChildren().add(label);
+				if(flowPane.getHeight() > initHeight)
+				{
+					ObservableList<Node> children = flowPane.getChildren();
+					
+					double tempHeight = 0;
+					
+					for(Node noder : children)
+					{
+						Label labeler = (Label)noder;
+						((ImageView)labeler.getGraphic()).setPreserveRatio(true);
+						
+						if(currHeight2[getLaneIndex(lane)][distance + 2] == 0)
+						{
+							currHeight2[getLaneIndex(lane)][distance + 2] = 
+								initHeight/children.size();
+							tempHeight = initHeight/children.size();
+						}
+						else if(tempHeight != initHeight/children.size())
+						{
+							tempHeight = currHeight2[getLaneIndex(lane)][distance + 2]/1.5;
+						}
+						
+						((ImageView)labeler.getGraphic()).setFitHeight(tempHeight);
+					}
+					
+					currHeight2[getLaneIndex(lane)][distance + 2] = tempHeight;
+					
+					break;
+				}
+			}
+		}
+	}
+	
+	public void checkLanes(Lane lane)
+	{
+		Stack<Node> nodes = getNodesFromGridPane(gridPane, numGrids - 1, getLaneIndex(lane));
+		double tempHeight = 0;
+		
+		for(Node node : nodes)
+		{
+			if(node instanceof FlowPane)
+			{
+				FlowPane flowPane = (FlowPane)node;
+				ObservableList<Node> nodesy = flowPane.getChildren();
+						
+				
+				for(Node noder : nodesy)
+				{
+					ImageView imageView = (ImageView) ((Label)noder).getGraphic();
+					
+					imageView.setPreserveRatio(true);
+					
+					if(tempHeight == 0)
+						tempHeight = initHeight/nodesy.size();
+					
+					imageView.setFitHeight(tempHeight);
+				}
+				
+				if(flowPane.getHeight() > initHeight)
+				{
+					tempHeight /= 1.5;
+				}
+				
 				break;
 			}
 		}
 	}
 	
-	public void performTurn(ActionEvent e)
+	public void performTurn()
 	{
-		battle.performTurn();
+		battle.passTurn();
 		
 		//for wall stats
 		for(int i = 0; i < numLanes; i++)
@@ -445,12 +547,43 @@ public class GameController{
 			((Label)(getNodesFromGridPane(gridPane, 0, i).get(0))).setText("    Hp: " + 
 						lanes[i].getLaneWall().getCurrentHealth() + 
 						"\nDanger Level: " + lanes[i].getDangerLevel());
+			
+			for(Titan titan : lanes[i].getTitans())
+			{
+				Label label = TitanImages.get(titan);
+				
+				String name;
+				if(titan instanceof PureTitan)
+					name = "Pure Titan";
+				else if(titan instanceof AbnormalTitan)
+					name = "Abnormal Titan";
+				else if(titan instanceof ArmoredTitan)
+					name = "Armored Titan";
+				else
+					name = "Colossal Titan";
+				
+				Tooltip TitanToolTip = new Tooltip("Name: " + name + " \n Hp: " + titan.getCurrentHealth() + 
+						" \n Height: " + titan.getHeightInMeters() + " \n Distance from wall: " + 
+						titan.getDistance() + " \n Speed: " + titan.getSpeed());
+				TitanToolTip.setShowDelay(Duration.ZERO);
+				
+				label.setTooltip(TitanToolTip);
+			}
 		}
 		
 		turns.setText("Turn: " + battle.getNumberOfTurns());
 		phase.setText(battle.getBattlePhase().toString());
 		score.setText("Score: " + battle.getScore());
 		resource.setText("Resources: " + battle.getResourcesGathered());
+		
+		
+		if(battle.isGameOver())
+			GameOver();
+	}
+	
+	private void GameOver()
+	{
+		
 	}
 	//1660
 }
