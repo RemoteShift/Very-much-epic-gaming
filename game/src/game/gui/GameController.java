@@ -61,6 +61,7 @@ public class GameController{
 	private double[] currWidth;
 	private double[][] currHeight2;
 	private int numGrids;
+	private double tempHeight = 0;
 	//double Initial_X = 1850-1660;
 	
 	private Image pureTitan = new Image(getClass().getResourceAsStream("PureTitan.png"));
@@ -505,7 +506,7 @@ public class GameController{
 	public void checkLanes(Lane lane)
 	{
 		Stack<Node> nodes = getNodesFromGridPane(gridPane, numGrids - 1, getLaneIndex(lane));
-		double tempHeight = 0;
+		
 		
 		for(Node node : nodes)
 		{
