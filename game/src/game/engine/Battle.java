@@ -178,7 +178,10 @@ public class Battle {
 	}
 
 	public void passTurn(){
-		performTurn();
+		if(!isGameOver())
+			performTurn();
+		else
+			gameController.GameOver();
 	}
 
 	private void addTurnTitansToLane(){
@@ -273,7 +276,10 @@ public class Battle {
 		moveTitans();
 		performWeaponsAttacks();
 		performTitansAttacks();
-		addTurnTitansToLane();
+		if(!isGameOver())
+			addTurnTitansToLane();
+		else
+			gameController.GameOver();
 		updateLanesDangerLevels();
 		finalizeTurns();
 	}

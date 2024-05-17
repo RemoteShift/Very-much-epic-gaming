@@ -19,6 +19,7 @@ import javafx.animation.PauseTransition;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -28,6 +29,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -50,6 +52,8 @@ public class GameController{
 	public static GameController instance;
 	public static Battle battle;
 	private static Scene mainScene = MainMenuController.mainScene;
+	private AnchorPane root;
+	private FXMLLoader loader;
 	private int numLanes;
 	private static boolean done = false;
 	private HashMap<FlowPane, Integer> lanesHashMap = new HashMap<FlowPane, Integer>();
@@ -576,25 +580,19 @@ public class GameController{
 		phase.setText(battle.getBattlePhase().toString());
 		score.setText("Score: " + battle.getScore());
 		resource.setText("Resources: " + battle.getResourcesGathered());
-		
-		
-		if(battle.isGameOver())
-			GameOver();
 	}
 	
-	private void GameOver()
+	public void GameOver()
 	{
+		try {
+			loader = new FXMLLoader(getClass().getResource("GameOver.fxml"));
+			root = loader.load();
+		} catch (IOException e) {
+		}
 		
+		mainScene.setRoot(root);
+		
+		GameOverController gameOver = loader.getController();
+		gameOver.initializeGameOver(battle.getScore(), battle.getNumberOfTurns());
 	}
-	//1660
 }
-
-//remove from the approaching titans
-//using hashmap, get its image
-//insert that image into the grid at its correct location
-//we do this once for each lane (a loop)
-//rinse and repeat i guess
-
-
-
-

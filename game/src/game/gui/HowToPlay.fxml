@@ -12,21 +12,94 @@
             <Font size="36.0" />
          </font>
       </Label>
-      <Button layoutX="937.0" layoutY="944.0" mnemonicParsing="false" onAction="#BackToMenu" text="Back" />
-      <Label layoutX="816.0" layoutY="166.0" text="There are 2 Game modes Available:">
+      <Button alignment="CENTER" layoutX="100.0" layoutY="950.0" mnemonicParsing="false" onAction="#BackToMenu" text="Back" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font></Button>
+      <Label alignment="CENTER" layoutX="755.0" layoutY="166.0" prefHeight="27.0" prefWidth="405.0" text="There are 2 Game modes:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label contentDisplay="CENTER" layoutX="600.0" layoutY="245.0" prefHeight="30.0" prefWidth="39.0" text="Easy">
+      <Label contentDisplay="CENTER" layoutX="600.0" layoutY="245.0" prefHeight="30.0" prefWidth="48.0" text="Easy">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="1320.0" layoutY="245.0" prefHeight="30.0" prefWidth="48.0" text="Hard">
+      <Label contentDisplay="CENTER" layoutX="1320.0" layoutY="245.0" prefHeight="30.0" prefWidth="48.0" text="Hard">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
+      <Label alignment="CENTER" layoutX="320.0" layoutY="300.0" prefHeight="30.0" prefWidth="600.0" text="3 lanes with an initial resource of 250 per lane">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="1041.0" layoutY="300.0" prefHeight="30.0" prefWidth="600.0" text="5 lanes with an initial resource of 125 per lane">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="816.0" layoutY="390.0" prefHeight="27.0" prefWidth="283.0" text="There are 3 Phases in a game:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label contentDisplay="CENTER" layoutX="597.0" layoutY="457.0" prefHeight="30.0" prefWidth="69.0" text="Early">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="320.0" layoutY="504.0" prefHeight="30.0" prefWidth="600.0" text="Initial stage with 1 titan per turn">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="816.0" layoutY="458.0" prefHeight="30.0" prefWidth="283.0" text="Intense:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="837.0" layoutY="480.0" prefHeight="86.0" prefWidth="240.0" text="Begins at turn 15 with 1 titan per turn" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="1200.0" layoutY="458.0" prefHeight="30.0" prefWidth="283.0" text="Grumbling:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="1120.0" layoutY="492.0" prefHeight="90.0" prefWidth="450.0" text="Begins at turn 30 with 1 titan per turn and doubles if the number of turns is greater than 30 and divisible by 5. " textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="651.0" layoutY="640.0" prefHeight="86.0" prefWidth="618.0" text="Drag and Drop a weapon from the weapon shop at the top of the screen onto a lane to purchase a weapon" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="651.0" layoutY="720.0" prefHeight="86.0" prefWidth="618.0" text="Purchase Weapons to defeat the oncoming titans to keep your Walls Alive" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="651.0" layoutY="782.0" prefHeight="86.0" prefWidth="618.0" text="A lane is lost once the lane Wall HP reaches 0" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="651.0" layoutY="837.0" prefHeight="86.0" prefWidth="618.0" text="The game ends once all lanes are lost" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Button alignment="CENTER" layoutX="1752.0" layoutY="950.0" mnemonicParsing="false" onAction="#NextHelp" text="Next" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

@@ -29,6 +29,9 @@ import javafx.util.Duration;
 
 public class MainMenuController{
 
+	public static MainMenuController instance;
+	Battle battle;
+	
 	public static Scene mainScene;
 	private AnchorPane root;
 	
@@ -41,11 +44,15 @@ public class MainMenuController{
 	@FXML
 	Label exception;
 	
+	@FXML
+	Label scoreOver, resourcesOver;
+	
 	
 	public void HowToPlay(ActionEvent e) throws IOException
 	{
 		root = FXMLLoader.load(getClass().getResource("HowToPlay.fxml"));
-		mainScene = ((Node)e.getSource()).getScene();
+		if(mainScene == null)
+			mainScene = ((Node)e.getSource()).getScene();
 			
 		mainScene.setRoot(root);
 	}
@@ -57,9 +64,20 @@ public class MainMenuController{
 		mainScene.setRoot(root);
 	}
 	
+	public void NextHelp(ActionEvent e) throws IOException
+	{
+		root = FXMLLoader.load(getClass().getResource("HowToPlay2.fxml"));
+		
+		mainScene.setRoot(root);
+	}
+	
 	public void Play(ActionEvent e) throws IOException
 	{
-		mainScene = ((Node)e.getSource()).getScene();
+		if(mainScene == null)
+			mainScene = ((Node)e.getSource()).getScene();
+		if(instance == null)
+			instance = this;
+		
 		((Node)e.getSource()).setDisable(true);
 		Stage stage = new Stage();
 		Parent root = FXMLLoader.load(getClass().getResource("ChooseDiff.fxml"));
@@ -110,7 +128,6 @@ public class MainMenuController{
 			exception.setDisable(true);
 		});
 		
-		Battle battle;
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Game.fxml"));
 		Parent root = loader.load();
 		GameController gameController = loader.getController();

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.gui.MainMenuController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="79.0" prefHeight="53.0" prefWidth="1920.0" text="Game Instructions">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="765.0" layoutY="176.0" prefHeight="27.0" prefWidth="405.0" text="There are 4 types of titans:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label contentDisplay="CENTER" layoutX="560.0" layoutY="245.0" prefHeight="30.0" prefWidth="162.0" text="Pure titan:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="310.0" layoutY="310.0" prefHeight="30.0" prefWidth="600.0" text="No Special Abilities">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label contentDisplay="CENTER" layoutX="900.0" layoutY="245.0" prefHeight="30.0" prefWidth="162.0" text="Abnormal Titan:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="830.0" layoutY="275.0" prefHeight="102.0" prefWidth="288.0" text="Performs attack action twice per turn instead of once" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label contentDisplay="CENTER" layoutX="1262.0" layoutY="241.0" prefHeight="30.0" prefWidth="162.0" text="Armored Titan:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="1182.0" layoutY="288.0" prefHeight="69.0" prefWidth="300.0" text="Performs attack action twice per turn instead of once" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label contentDisplay="CENTER" layoutX="900.0" layoutY="419.0" prefHeight="30.0" prefWidth="162.0" text="Colossal Titan:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="833.0" layoutY="449.0" prefHeight="102.0" prefWidth="288.0" text="After every movement, Increases its speed stat by 1" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="765.0" layoutY="570.0" prefHeight="27.0" prefWidth="405.0" text="There are 4 types of Weapons:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label contentDisplay="CENTER" layoutX="530.0" layoutY="647.0" prefHeight="30.0" prefWidth="162.0" text="Piercing Cannon:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="445.0" layoutY="684.0" prefHeight="76.0" prefWidth="322.0" text="Attacks the closest 5 titans to the wall on the weapon’s lane." textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label contentDisplay="CENTER" layoutX="895.0" layoutY="647.0" prefHeight="30.0" prefWidth="162.0" text="Sniper Cannon:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="800.0" layoutY="670.0" prefHeight="102.0" prefWidth="328.0" text="Attacks the first closest titan to the wall on the weapon’s lane." textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label contentDisplay="CENTER" layoutX="1232.0" layoutY="643.0" prefHeight="30.0" prefWidth="270.0" text="VolleySpread Cannon:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="1176.0" layoutY="663.0" prefHeight="111.0" prefWidth="300.0" text="Attack all the titans in between distance 20 and 50 from base" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label contentDisplay="CENTER" layoutX="920.0" layoutY="821.0" prefHeight="30.0" prefWidth="162.0" text="WallTrap:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="820.0" layoutY="851.0" prefHeight="102.0" prefWidth="288.0" text="Attacks only one titan that has already reached the walls" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Button alignment="CENTER" layoutX="110.0" layoutY="960.0" mnemonicParsing="false" onAction="#HowToPlay" text="Back" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button alignment="CENTER" layoutX="1750.0" layoutY="960.0" mnemonicParsing="false" onAction="#BackToMenu" text="Menu" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
