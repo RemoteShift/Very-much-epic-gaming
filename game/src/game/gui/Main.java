@@ -29,7 +29,7 @@ public class Main extends Application {
 			String css1 = getClass().getResource("application.css").toExternalForm();
 			
 			
-			stage.setTitle("Za3be e e e elllll");
+			stage.setTitle("Attack on GUC");
 			stage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
 		
 			stage.setResizable(false);

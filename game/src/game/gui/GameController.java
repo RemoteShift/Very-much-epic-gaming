@@ -1,6 +1,7 @@
 package game.gui;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Stack;
@@ -39,6 +40,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -66,7 +69,7 @@ public class GameController{
 	private double[][] currHeight2;
 	private int numGrids;
 	private double tempHeight = 0;
-	//double Initial_X = 1850-1660;
+	private MediaPlayer mediaPlayer;
 	
 	private Image pureTitan = new Image(getClass().getResourceAsStream("PureTitan.png"));
 	private Image abnormalTitan = new Image(getClass().getResourceAsStream("AbnormalTitan.png"));
@@ -98,6 +101,12 @@ public class GameController{
 	public void initialize() throws IOException {
 		if(battle != null)
 		{
+			//music
+			Media music = new Media(new File("src/game/gui/Blackmoor_Colossus_No_Vocals.mp3").toURI().toString());
+			mediaPlayer = new MediaPlayer(music);
+			mediaPlayer.play();
+			mediaPlayer.setVolume(0.5);
+			
 			numGrids = (int) (Math.nextUp(10*battle.getTitanSpawnDistance()/50) + 3);
 			
 			PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
@@ -163,10 +172,6 @@ public class GameController{
 						flowPaner.setMaxHeight(initHeight);
 						gridPane.add(flowPaner, col, row);
 					}
-					//pixels= 83*20 = 1660
-					//whole thing from very left = 1850
-					
-					
 				}
 				
 				flowPane.setMaxWidth(initWidth);
@@ -244,7 +249,6 @@ public class GameController{
 					event.setDropCompleted(true);
 				});
 				
-				//set every time turn is performed
 				Label wallHealth = new Label("    Hp: " + lanes[row].getLaneWall().getCurrentHealth() + 
 						"\nDanger Level: " + lanes[row].getDangerLevel());
                 wallHealth.setFont(new Font("Arial", (numLanes > 3)? 17 : 25));
@@ -258,9 +262,6 @@ public class GameController{
 				
 				
 				gridPane.add(wallHealth, 0, row);
-				
-				/*battle.getLanes().remove(lanes[0]);
-				killLane(lanes[0]);*/
 			}
 
 			turns.setText("Turn: " + battle.getNumberOfTurns());
@@ -553,6 +554,7 @@ public class GameController{
 						lanes[i].getLaneWall().getCurrentHealth() + 
 						"\nDanger Level: " + lanes[i].getDangerLevel());
 			
+			//for titan stats 
 			for(Titan titan : lanes[i].getTitans())
 			{
 				Label label = TitanImages.get(titan);
@@ -589,7 +591,7 @@ public class GameController{
 			root = loader.load();
 		} catch (IOException e) {
 		}
-		
+		mediaPlayer.stop();
 		mainScene.setRoot(root);
 		
 		GameOverController gameOver = loader.getController();

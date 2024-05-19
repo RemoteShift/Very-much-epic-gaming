@@ -60,26 +60,6 @@
                   <Image url="@WallTrap.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@PureTitan.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@AbnormalTitan.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@ArmoredTitan.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@CollosalTitan.png" />
-               </image>
-            </ImageView>
          </children>
       </HBox>
       <Label fx:id="exception" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="-4.0" layoutY="520.0" opacity="0.0" prefHeight="70.0" prefWidth="1920.0" text="Lane" textAlignment="CENTER" underline="true">
